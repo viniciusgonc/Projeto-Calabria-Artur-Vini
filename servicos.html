@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Solicitação de Serviços de TI — JaLegalizei TI</title>
+
+  <!-- CSS externo -->
+  <link rel="stylesheet" href="css/style.css" />
+
+  <!-- CSS interno da página -->
+  <style>
+    /* Seções da página de serviços */
+    .servicos-page-wrapper {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+
+    /* Cabeçalho de seção interna */
+    .secao-titulo {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      font-family: var(--font-heading);
+    }
+
+    /* Acumulação: .secao-titulo::after adiciona linha decorativa */
+    .secao-titulo::after {
+      content: '';
+      flex: 1;
+      height: 2px;
+      background: var(--brand-tint);
+      border-radius: 2px;
+    }
+
+    /* Card da solicitação */
+    .solicitacao-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      padding: 1.75rem;
+      margin-bottom: 2rem;
+    }
+
+    /* Sobrescrita: labels de info do serviço têm estilo diferente */
+    .info-label {
+      font-family: var(--font-heading);
+      font-size: .88rem;
+      color: var(--ink-light);
+      display: block;
+      margin-bottom: .2rem;
+    }
+
+    .info-valor {
+      font-family: var(--font-heading);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--brand-dark);
+    }
+
+    /* Seletor de atributo: select de serviços */
+    select[id="sel-servico"] {
+      border: 2px solid var(--brand);
+      font-weight: 600;
+    }
+
+    /* Grid de labels do serviço selecionado */
+    .servico-info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      margin: 1.25rem 0;
+      padding: 1.25rem;
+      background: var(--brand-tint);
+      border-radius: var(--radius);
+      border: 1px solid rgba(0,187,119,.2);
+    }
+
+    /* Seletor descendente: p dentro de .servico-info-grid */
+    .servico-info-grid p {
+      margin-bottom: 0;
+      color: var(--ink-light);
+      font-size: .8rem;
+    }
+
+    /* Status "EM ELABORAÇÃO" — inline */
+    #lbl-status {
+      color: #b7791f;
+      font-weight: 700;
+      font-family: var(--font-heading);
+    }
+
+    /* Contador de registros */
+    .contador-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--brand);
+      color: var(--white);
+      border-radius: 50px;
+      padding: .15rem .65rem;
+      font-size: .78rem;
+      font-family: var(--font-heading);
+      font-weight: 700;
+      margin-left: .5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══════════ HEADER ══════════ -->
+  <header id="main-header">
+    <nav>
+      <div class="logo-area">
+        <span class="logo-text">JaLegalizei <strong>TI</strong></span>
+        <span class="logo-slogan">Tecnologia que legaliza o seu futuro</span>
+      </div>
+      <ul class="nav-links">
+        <li><a href="index.html" class="nav-link">🏠 Início</a></li>
+        <li id="nav-item-servicos">
+          <a href="servicos.html" class="nav-link nav-link-destaque">💼 Meus Serviços</a>
+        </li>
+        <li>
+          <a href="index.html" class="nav-link"
+             onclick="Auth.logout(); return true;"
+             title="Sair da conta">
+            🚪 Sair
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+  <div class="header-gradient-bar"></div>
+
+  <!-- ══════════ CONTEÚDO PRINCIPAL ══════════ -->
+  <main id="main-content">
+    <div class="servicos-page-wrapper">
+
+      <h1 style="font-size:1.6rem; margin-bottom:.25rem;">Solicitação de Serviços de TI</h1>
+      <p style="color:var(--ink-light); margin-bottom:1.75rem; font-size:.95rem;">
+        Gerencie suas solicitações e adicione novos serviços de TI.
+      </p>
+
+      <!-- ── Seção 1: Informações do Usuário Logado (requisito) ─── -->
+      <section aria-label="Dados do usuário logado">
+        <div class="user-info-bar">
+          <div>
+            <span class="info-label">Usuário logado:</span>
+            <!-- Labels com valores fixos (requisito desta versão) -->
+            <span class="info-valor" id="lbl-nome-usuario">Carregando...</span>
+          </div>
+          <div>
+            <span class="info-label">E-mail:</span>
+            <span class="info-valor" id="lbl-email-usuario">Carregando...</span>
+          </div>
+          <div style="margin-left:auto;">
+            <a href="index.html"
+               onclick="Auth.logout(); return true;"
+               class="btn btn-secondary"
+               style="font-size:.85rem; padding:.4rem 1rem;">
+              🚪 Encerrar sessão
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Seção 2: Tabela de Solicitações Existentes (requisito) ── -->
+      <section aria-label="Minhas solicitações de serviços">
+        <h2 class="secao-titulo">
+          📋 Minhas Solicitações
+          <span class="contador-badge" id="contador-sol">0</span>
+        </h2>
+
+        <!--
+          Tabela com: data do pedido, nº solicitação, serviço, status,
+          preço, data prevista e botão excluir (requisito).
+          Ordenada crescentemente por data de pedido (requisito).
+          Scroll automático para conteúdo longo (requisito).
+        -->
+        <div class="table-scroll">
+          <table class="tabela-dados" aria-label="Lista de solicitações de serviços de TI">
+            <thead>
+              <tr>
+                <th scope="col">📅 Data do Pedido</th>
+                <th scope="col"># Solicitação</th>
+                <th scope="col">Serviço de TI</th>
+                <th scope="col">Status</th>
+                <th scope="col">Preço</th>
+                <th scope="col">Data Prevista</th>
+                <th scope="col">Ação</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-solicitacoes">
+              <!-- Preenchido dinamicamente por servicos.js -->
+              <tr>
+                <td colspan="7" style="text-align:center; padding:2rem; color:#4a5568;">
+                  Carregando solicitações...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Contador atualizado por JS -->
+        <p id="msg-sem-sol" style="display:none; text-align:center; color:var(--ink-light); margin-top:1rem;">
+          Nenhuma solicitação cadastrada ainda. Use o formulário abaixo para adicionar.
+        </p>
+      </section>
+
+      <!-- ── Seção 3: Formulário de Nova Solicitação (requisito) ─── -->
+      <section aria-label="Adicionar nova solicitação de serviço" style="margin-top:2.5rem;">
+        <h2 class="secao-titulo">➕ Nova Solicitação</h2>
+
+        <div class="solicitacao-card">
+          <div class="form-group">
+            <label for="sel-servico">Serviço de TI <strong style="color:#c53030;">*</strong></label>
+            <!-- Combo box com serviços disponíveis (requisito) -->
+            <select id="sel-servico" aria-label="Selecione o serviço de TI desejado">
+              <!-- Populado dinamicamente por servicos.js -->
+            </select>
+          </div>
+
+          <!--
+            Labels preenchidos automaticamente conforme o serviço selecionado:
+            - Preço: label preenchido por JS (requisito)
+            - Prazo: label preenchido por JS (requisito)
+            - Data prevista: data atual + prazo (requisito)
+            - Status: fixo "EM ELABORAÇÃO" (requisito)
+          -->
+          <div class="servico-info-grid" id="servico-info-grid">
+            <div>
+              <span class="info-label">💰 Preço</span>
+              <span class="info-valor" id="lbl-preco">--</span>
+            </div>
+            <div>
+              <span class="info-label">⏱️ Prazo de Atendimento</span>
+              <span class="info-valor" id="lbl-prazo">--</span>
+            </div>
+            <div>
+              <span class="info-label">📅 Data Prevista de Atendimento</span>
+              <span class="info-valor" id="lbl-data-prevista">--</span>
+            </div>
+            <div>
+              <span class="info-label">🔄 Status</span>
+              <!-- Status inicial fixo (requisito) -->
+              <span id="lbl-status">--</span>
+            </div>
+          </div>
+
+          <div style="display:flex; gap:.75rem; flex-wrap:wrap;">
+            <!-- Botão Incluir (já deve incluir na tabela — requisito) -->
+            <button
+              type="button"
+              id="btn-incluir-servico"
+              class="btn btn-primary">
+              ✅ Incluir Solicitação
+            </button>
+
+            <a href="index.html" class="btn btn-outline">
+              🏠 Voltar à Página Inicial
+            </a>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ══════════ FOOTER ══════════ -->
+  <footer id="main-footer">
+    <div class="footer-bg" aria-hidden="true"></div>
+    <div class="footer-inner">
+      <table class="footer-table">
+        <tbody>
+          <tr>
+            <td>
+              <h4>Contato</h4>
+              <ul>
+                <li>📞 <a href="tel:+558134567890">(81) 3456-7890</a></li>
+                <li>💬 <a href="tel:+5581995801980">(81) 99580-1980</a></li>
+                <li>✉️ <a href="mailto:contato@jalegalizei.ti.br">contato@jalegalizei.ti.br</a></li>
+              </ul>
+            </td>
+            <td>
+              <h4>Endereço</h4>
+              <address class="footer-address">
+                Rua Padre Euclides Jardim, 248<br />
+                Afogados — Recife, PE<br />
+                CEP: 50.750-090
+              </address>
+            </td>
+            <td>
+              <h4>Pagamento</h4>
+              <div class="footer-payment">
+                <span class="payment-badge">💳 Cartão</span>
+                <span class="payment-badge">🔑 Pix</span>
+                <span class="payment-badge">📄 Boleto</span>
+                <span class="payment-badge">🏦 Transferência</span>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="footer-copy">
+        © <span id="ano-sv"></span> JaLegalizei TI — Todos os direitos reservados.
+      </p>
+    </div>
+  </footer>
+
+  <!-- JS (ORDEM IMPORTANTE: validacoes → main → servicos) -->
+  <script src="js/validacoes.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/servicos.js"></script>
+  <script>
+    document.getElementById('ano-sv').textContent = new Date().getFullYear();
+
+    // Atualiza contador de solicitações sempre que a tabela muda
+    const observer = new MutationObserver(function () {
+      const tbody  = document.getElementById('tbody-solicitacoes');
+      const span   = document.getElementById('contador-sol');
+      if (!tbody || !span) return;
+      const linhasValidas = tbody.querySelectorAll('tr[data-id]').length;
+      // Conta linhas sem a mensagem "nenhuma"
+      const total = tbody.querySelectorAll('tr').length;
+      // Se tbody tem conteúdo real (não placeholder), conta as linhas
+      const semMsg = document.getElementById('msg-sem-sol');
+      const rows   = tbody.querySelectorAll('td[data-status]');
+      span.textContent = rows.length > 0 ? rows.length : '0';
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const tbody = document.getElementById('tbody-solicitacoes');
+      if (tbody) observer.observe(tbody, { childList: true, subtree: true });
+
+      // Atualiza contador após render inicial
+      setTimeout(function () {
+        const rows  = document.querySelectorAll('#tbody-solicitacoes td[data-status]');
+        const span  = document.getElementById('contador-sol');
+        if (span) span.textContent = rows.length;
+      }, 200);
+    });
+  </script>
+
+</body>
+</html>
