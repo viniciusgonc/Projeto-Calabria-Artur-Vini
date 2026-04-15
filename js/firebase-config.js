@@ -1,10 +1,10 @@
 const firebaseConfig = {
-  apiKey: "AIzaSyC4E6uYgxtaPH0MO1ifFPCVpf4RmlwqMh8",
-  authDomain: "artwinners-ti.firebaseapp.com",
-  projectId: "artwinners-ti",
-  storageBucket: "artwinners-ti.firebasestorage.app",
-  messagingSenderId: "992895998196",
-  appId: "1:992895998196:web:2fb273cdf6145098dca6a1"
+  apiKey: "",
+  authDomain: "",
+  projectId: "",
+  storageBucket: "",
+  messagingSenderId: "",
+  appId: ""
 };
 
 // ── Inicialização ────────────────────────────────────────────────
