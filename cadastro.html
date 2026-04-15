@@ -10,7 +10,7 @@
       max-width: 680px;
       padding: 2rem 2rem;
     }
-
+ 
     .cadastro-secao {
       margin: 1.5rem 0 1rem;
       padding-bottom: .4rem;
@@ -19,29 +19,24 @@
       color: var(--brand-dark);
       font-family: var(--font-heading);
     }
-
+ 
     .form-group-half {
       flex: 1 1 calc(50% - .5rem);
       min-width: 200px;
     }
-
-    .form-group-inline .form-group-half + .form-group-half {
-      border-top: none;
-      padding-top: 0;
-    }
-
+ 
     input[data-campo="cpf"] {
       font-family: 'Courier New', Courier, monospace;
       letter-spacing: 1px;
     }
-
+ 
     #cad-instrucao-senha {
       background: #f0fff8;
       border: 1px solid rgba(0,187,119,.3);
       font-family: 'Courier New', Courier, monospace;
       font-size: .82rem;
     }
-
+ 
     .aviso-campo {
       font-size: .78rem;
       color: var(--ink-light);
@@ -59,20 +54,20 @@
     </div>
   </header>
   <div class="header-gradient-bar"></div>
-
+ 
   <main class="auth-main" style="align-items:flex-start; padding: 2rem 1rem;">
     <section class="form-wrapper cadastro-wrapper" aria-label="Formulário de cadastro de clientes">
       <div class="auth-logo">
         <span>ArtWinners</span> <span style="color: var(--brand);">TI</span>
       </div>
-
+ 
       <h1 class="auth-title">Cadastro de Clientes</h1>
-
+ 
       <div id="alerta-cad" class="alerta-box erro" style="display:none;"></div>
-
+ 
       <form id="form-cadastro" novalidate autocomplete="off">
         <h2 class="cadastro-secao">🔐 Dados de Acesso</h2>
-
+ 
         <div class="form-group">
           <label for="cad-email">E-mail (será o seu Login) <strong style="color:#c53030;">*</strong></label>
           <input
@@ -84,7 +79,7 @@
             maxlength="120" />
           <span id="cad-email-erro" class="msg-erro"></span>
         </div>
-
+ 
         <div class="form-group-inline">
           <div class="form-group form-group-half">
             <label for="cad-senha">Senha <strong style="color:#c53030;">*</strong></label>
@@ -103,13 +98,12 @@
                 onclick="toggleSenha('cad-senha', this)"
                 aria-label="Mostrar senha"
                 title="Mostrar senha">
-                👁️
               </button>
             </div>
             <span id="cad-senha-erro" class="msg-erro"></span>
             <span id="forca-cad" class="forca-senha"></span>
           </div>
-
+ 
           <div class="form-group form-group-half">
             <label for="cad-confirma">Confirmar Senha <strong style="color:#c53030;">*</strong></label>
             <div class="senha-wrapper">
@@ -126,13 +120,12 @@
                 onclick="toggleSenha('cad-confirma', this)"
                 aria-label="Mostrar senha"
                 title="Mostrar senha">
-                👁️
               </button>
             </div>
             <span id="cad-confirma-erro" class="msg-erro"></span>
           </div>
         </div>
-
+ 
         <div class="form-group">
           <label>📋 Regras de composição da senha:</label>
           <textarea
@@ -142,9 +135,9 @@
             aria-label="Regras de composição de senha">
           </textarea>
         </div>
-
+ 
         <h2 class="cadastro-secao">👤 Dados Pessoais</h2>
-
+ 
         <div class="form-group">
           <label for="cad-nome">Nome Completo <strong style="color:#c53030;">*</strong></label>
           <input
@@ -156,7 +149,7 @@
           <span id="cad-nome-erro" class="msg-erro"></span>
           <span class="aviso-campo">Mínimo 2 palavras. Primeira palavra com pelo menos 2 letras. Sem caracteres especiais.</span>
         </div>
-
+ 
         <div class="form-group-inline">
           <div class="form-group form-group-half">
             <label for="cad-cpf">CPF <strong style="color:#c53030;">*</strong></label>
@@ -173,7 +166,7 @@
               onkeydown="bloquearNaoDigitoCPF(event)" />
             <span id="cad-cpf-erro" class="msg-erro"></span>
           </div>
-
+ 
           <div class="form-group form-group-half">
             <label for="cad-nascimento">Data de Nascimento <strong style="color:#c53030;">*</strong></label>
             <input
@@ -185,7 +178,7 @@
             <span id="cad-nascimento-erro" class="msg-erro"></span>
           </div>
         </div>
-
+ 
         <div class="form-group">
           <label for="cad-telefone">Celular / WhatsApp <span style="color:var(--ink-light); font-weight:400;">(opcional)</span></label>
           <input
@@ -198,31 +191,19 @@
           <span id="cad-telefone-erro" class="msg-erro"></span>
           <span class="aviso-campo">Se preenchido, deve ter formato de telefone nacional (DDD + número).</span>
         </div>
-
+ 
         <h2 class="cadastro-secao">📋 Informações Adicionais</h2>
-
+ 
         <div class="form-group">
           <label>Estado Civil <strong style="color:#c53030;">*</strong></label>
           <div class="radio-group" role="group" aria-label="Estado civil">
-            <label>
-              <input type="radio" name="estado-civil" value="solteiro" checked />
-              Solteiro(a)
-            </label>
-            <label>
-              <input type="radio" name="estado-civil" value="casado" />
-              Casado(a)
-            </label>
-            <label>
-              <input type="radio" name="estado-civil" value="divorciado" />
-              Divorciado(a)
-            </label>
-            <label>
-              <input type="radio" name="estado-civil" value="viuvo" />
-              Viúvo(a)
-            </label>
+            <label><input type="radio" name="estado-civil" value="solteiro" checked /> Solteiro(a)</label>
+            <label><input type="radio" name="estado-civil" value="casado" />    Casado(a)</label>
+            <label><input type="radio" name="estado-civil" value="divorciado" />Divorciado(a)</label>
+            <label><input type="radio" name="estado-civil" value="viuvo" />     Viúvo(a)</label>
           </div>
         </div>
-
+ 
         <div class="form-group">
           <label for="cad-escolaridade">Escolaridade <strong style="color:#c53030;">*</strong></label>
           <select id="cad-escolaridade" name="escolaridade">
@@ -233,38 +214,24 @@
             <option value="pos">Pós-Graduado</option>
           </select>
         </div>
-
+ 
         <div class="form-actions">
-          <button
-            type="button"
-            id="btn-incluir-cad"
-            class="btn btn-primary"
-            onclick="incluirCadastro()">
+          <button type="button" id="btn-incluir-cad" class="btn btn-primary" onclick="incluirCadastro()">
             ✅ Incluir
           </button>
-
-          <button
-            type="button"
-            id="btn-limpar-cad"
-            class="btn btn-secondary"
-            onclick="limparFormCadastro()">
+          <button type="button" id="btn-limpar-cad"  class="btn btn-secondary" onclick="limparFormCadastro()">
             🗑️ Limpar
           </button>
-
-          <button
-            type="button"
-            id="btn-voltar-cad"
-            class="btn btn-outline"
-            onclick="window.history.back()">
+          <button type="button" id="btn-voltar-cad"  class="btn btn-outline" onclick="window.history.back()">
             ← Voltar
           </button>
         </div>
-
+ 
         <p style="font-size:.78rem; color:var(--ink-light); margin-top:.75rem;">
           <strong style="color:#c53030;">*</strong> Campos obrigatórios
         </p>
       </form>
-
+ 
       <div class="auth-links" style="margin-top:1rem;">
         Já tem conta?
         <a href="login.html">Fazer Login</a>
@@ -273,44 +240,30 @@
       </div>
     </section>
   </main>
-
+ 
+  <!-- Firebase SDK (compat) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+ 
+  <script src="js/firebase-config.js"></script>
   <script src="js/validacoes.js"></script>
   <script src="js/main.js"></script>
-
+ 
   <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const instrEl = document.getElementById('cad-instrucao-senha');
-      if (instrEl) instrEl.value = INSTRUCAO_SENHA;
-
-      const nascEl = document.getElementById('cad-nascimento');
-      if (nascEl) {
-        const hoje = new Date();
-        const ano  = hoje.getFullYear();
-        const mes  = String(hoje.getMonth() + 1).padStart(2, '0');
-        const dia  = String(hoje.getDate()).padStart(2, '0');
-        nascEl.max = `${ano}-${mes}-${dia}`;
-      }
-
-      const formCadastro = document.getElementById('form-cadastro');
-      if (formCadastro) resetarBotoesSenha(formCadastro);
-
-      const emailEl = document.getElementById('cad-email');
-      if (emailEl) emailEl.focus();
-    });
-
+    /* ── Indicador de força da senha ─────────────────────────── */
     function avaliarForcaCad(senha) {
       const el = document.getElementById('forca-cad');
       if (!el) return;
-
       if (!senha) { el.textContent = ''; return; }
-
+ 
       let pontos = 0;
       if (senha.length >= 6)  pontos++;
       if (senha.length >= 10) pontos++;
       if (/[A-Z]/.test(senha)) pontos++;
       if (/\d/.test(senha))   pontos++;
       if (/[@#$%&*!?/\\|\-_+.=]/.test(senha)) pontos++;
-
+ 
       if (pontos <= 2) {
         el.className = 'forca-senha forca-fraca';
         el.textContent = '🔴 Fraca';
@@ -322,11 +275,13 @@
         el.textContent = '🟢 Forte';
       }
     }
-
-    function incluirCadastro() {
-      const form     = document.getElementById('form-cadastro');
-      const alerta   = document.getElementById('alerta-cad');
-
+ 
+    /* ── Cadastro com Firebase Auth + Firestore ─────────────── */
+    async function incluirCadastro() {
+      const form       = document.getElementById('form-cadastro');
+      const alerta     = document.getElementById('alerta-cad');
+      const btnIncluir = document.getElementById('btn-incluir-cad');
+ 
       const inEmail    = document.getElementById('cad-email');
       const inSenha    = document.getElementById('cad-senha');
       const inConfirma = document.getElementById('cad-confirma');
@@ -334,13 +289,14 @@
       const inCPF      = document.getElementById('cad-cpf');
       const inNasc     = document.getElementById('cad-nascimento');
       const inTel      = document.getElementById('cad-telefone');
-
+ 
       limparTodosErros(form);
       ocultarAlerta(alerta);
-
+ 
       let valido = true;
       let primeiroErro = null;
-
+ 
+      /* ── Validações locais ── */
       const emailVal = inEmail.value.trim();
       if (!emailVal) {
         mostrarErro(inEmail, 'O e-mail deve ser preenchido.');
@@ -351,7 +307,7 @@
         if (!primeiroErro) primeiroErro = inEmail;
         valido = false;
       }
-
+ 
       const senhaVal = inSenha.value;
       if (!senhaVal) {
         mostrarErro(inSenha, 'A senha deve ser preenchida.');
@@ -365,7 +321,7 @@
           valido = false;
         }
       }
-
+ 
       const confirmaVal = inConfirma.value;
       if (!confirmaVal) {
         mostrarErro(inConfirma, 'A confirmação de senha deve ser preenchida.');
@@ -376,7 +332,7 @@
         if (!primeiroErro) primeiroErro = inConfirma;
         valido = false;
       }
-
+ 
       const nomeVal = inNome.value;
       const resNome = validarNome(nomeVal);
       if (!resNome.valido) {
@@ -384,7 +340,7 @@
         if (!primeiroErro) primeiroErro = inNome;
         valido = false;
       }
-
+ 
       const cpfVal = inCPF.value;
       if (!cpfVal.trim()) {
         mostrarErro(inCPF, 'O CPF deve ser preenchido.');
@@ -395,7 +351,7 @@
         if (!primeiroErro) primeiroErro = inCPF;
         valido = false;
       }
-
+ 
       const nascVal = inNasc.value;
       if (!nascVal) {
         mostrarErro(inNasc, 'A data de nascimento deve ser preenchida.');
@@ -406,49 +362,123 @@
         if (!primeiroErro) primeiroErro = inNasc;
         valido = false;
       }
-
+ 
       const telVal = inTel.value;
-      if (!validarTelefone(telVal)) {
+      if (telVal && !validarTelefone(telVal)) {
         mostrarErro(inTel, 'Telefone inválido. Informe DDD + número (10 ou 11 dígitos).');
         if (!primeiroErro) primeiroErro = inTel;
         valido = false;
       }
-
+ 
       if (!valido) {
         mostrarAlerta(alerta, 'Por favor, corrija os erros indicados no formulário.', 'erro');
         if (primeiroErro) primeiroErro.focus();
         return;
       }
-
-      alert('Validação realizada com sucesso! Cadastro realizado. Faça seu login.');
-      window.location.href = 'login.html';
+ 
+      /* ── Envio ao Firebase ── */
+      btnIncluir.disabled = true;
+      btnIncluir.textContent = '⏳ Cadastrando...';
+ 
+      const estadoCivil = document.querySelector('input[name="estado-civil"]:checked')?.value || 'solteiro';
+      const escolaridade = document.getElementById('cad-escolaridade').value;
+ 
+      try {
+        // 1. Cria o usuário no Firebase Authentication
+        const cred = await fbAuth.createUserWithEmailAndPassword(emailVal, senhaVal);
+        const uid  = cred.user.uid;
+ 
+        // 2. Salva os dados complementares no Firestore
+        await salvarPerfil(uid, {
+          email:       emailVal,
+          nome:        nomeVal.trim(),
+          cpf:         cpfVal,
+          nascimento:  nascVal,
+          telefone:    telVal.trim(),
+          estadoCivil: estadoCivil,
+          escolaridade: escolaridade
+        });
+ 
+        // 3. Faz logout imediato (força o usuário a fazer login explicitamente)
+        await fbAuth.signOut();
+ 
+        alert('Validação realizada com sucesso! Cadastro realizado. Faça seu login.');
+        window.location.href = 'login.html';
+ 
+      } catch (err) {
+        console.error('Erro ao cadastrar:', err);
+ 
+        let msg = 'Erro ao realizar o cadastro. Tente novamente.';
+ 
+        switch (err.code) {
+          case 'auth/email-already-in-use':
+            msg = 'Este e-mail já está cadastrado. Faça login ou use outro e-mail.';
+            mostrarErro(inEmail, msg);
+            inEmail.focus();
+            break;
+          case 'auth/invalid-email':
+            msg = 'E-mail inválido.';
+            mostrarErro(inEmail, msg);
+            inEmail.focus();
+            break;
+          case 'auth/weak-password':
+            msg = 'A senha é muito fraca. Use pelo menos 6 caracteres.';
+            mostrarErro(inSenha, msg);
+            inSenha.focus();
+            break;
+          case 'auth/network-request-failed':
+            msg = 'Falha de conexão. Verifique sua internet e tente novamente.';
+            break;
+        }
+ 
+        mostrarAlerta(alerta, msg, 'erro');
+ 
+      } finally {
+        btnIncluir.disabled = false;
+        btnIncluir.innerHTML = '✅ Incluir';
+      }
     }
-
+ 
+    /* ── Limpar formulário ───────────────────────────────────── */
     function limparFormCadastro() {
-      const form     = document.getElementById('form-cadastro');
-      const alerta   = document.getElementById('alerta-cad');
-      const forca    = document.getElementById('forca-cad');
-      const instrEl  = document.getElementById('cad-instrucao-senha');
-
+      const form    = document.getElementById('form-cadastro');
+      const alerta  = document.getElementById('alerta-cad');
+      const forca   = document.getElementById('forca-cad');
+      const instrEl = document.getElementById('cad-instrucao-senha');
+ 
       form.querySelectorAll('input[type="text"], input[type="email"], input[type="password"], input[type="date"], input[type="tel"]')
-          .forEach(function (el) { el.value = ''; });
-
+          .forEach(el => el.value = '');
+ 
       resetarBotoesSenha(form);
-
-      const radios = form.querySelectorAll('input[type="radio"]');
-      radios.forEach(function (r) { r.checked = (r.value === 'solteiro'); });
-
+ 
+      form.querySelectorAll('input[type="radio"]')
+          .forEach(r => r.checked = (r.value === 'solteiro'));
+ 
       const select = document.getElementById('cad-escolaridade');
       if (select) select.value = '2g_comp';
-
+ 
       limparTodosErros(form);
       ocultarAlerta(alerta);
-      if (forca) forca.textContent = '';
+      if (forca)   forca.textContent = '';
       if (instrEl) instrEl.value = INSTRUCAO_SENHA;
-
-      const emailEl = document.getElementById('cad-email');
-      if (emailEl) emailEl.focus();
+ 
+      document.getElementById('cad-email').focus();
     }
+ 
+    /* ── Inicialização da página ─────────────────────────────── */
+    document.addEventListener('DOMContentLoaded', function () {
+      const instrEl = document.getElementById('cad-instrucao-senha');
+      if (instrEl) instrEl.value = INSTRUCAO_SENHA;
+ 
+      const nascEl = document.getElementById('cad-nascimento');
+      if (nascEl) {
+        const hoje = new Date();
+        nascEl.max = `${hoje.getFullYear()}-${String(hoje.getMonth()+1).padStart(2,'0')}-${String(hoje.getDate()).padStart(2,'0')}`;
+      }
+ 
+      resetarBotoesSenha(document.getElementById('form-cadastro'));
+      document.getElementById('cad-email').focus();
+    });
   </script>
 </body>
 </html>

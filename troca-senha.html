@@ -11,7 +11,7 @@
       margin-bottom: .5rem;
       font-size: .92rem;
     }
-
+ 
     #instrucao-senha-output {
       border: 1px solid rgba(0,187,119,.35);
       background: #f0fff8;
@@ -19,18 +19,21 @@
       font-family: 'Courier New', Courier, monospace;
       font-size: .84rem;
     }
-
-    .forca-senha {
-      margin-top: .4rem;
-      font-size: .82rem;
-      font-family: var(--font-heading);
-    }
-    .forca-fraca   { color: #c53030; }
-    .forca-media   { color: #b7791f; }
-    .forca-forte   { color: #276749; }
-
+ 
     .form-wrapper.troca-senha {
       max-width: 580px;
+    }
+ 
+    .info-banner {
+      background: #fffbeb;
+      border: 1px solid #f6ad55;
+      border-radius: var(--radius);
+      padding: .9rem 1.2rem;
+      font-size: .88rem;
+      color: #7b341e;
+      margin-bottom: 1.5rem;
+      font-family: var(--font-heading);
+      line-height: 1.5;
     }
   </style>
 </head>
@@ -42,17 +45,24 @@
     </div>
   </header>
   <div class="header-gradient-bar"></div>
-
+ 
   <main class="auth-main">
     <section class="form-wrapper troca-senha" aria-label="Formulário de troca de senha">
       <div class="auth-logo">
         <span>ArtWinners</span> <span style="color: var(--brand);">TI</span>
       </div>
-
+ 
       <h1 class="auth-title">Troca de Senha de Clientes</h1>
-
+ 
+      <!-- Banner informativo sobre o processo -->
+      <div class="info-banner">
+        ℹ️ Preencha o seu e-mail e defina a nova senha nos campos abaixo.
+        Após validar, enviaremos um <strong>link seguro</strong> ao seu e-mail
+        para confirmar a troca de senha.
+      </div>
+ 
       <div id="alerta-troca" class="alerta-box erro" style="display:none;"></div>
-
+ 
       <form id="form-troca" novalidate autocomplete="off">
         <div class="form-group">
           <label for="ts-login">E-mail (Login)</label>
@@ -65,7 +75,7 @@
             maxlength="120" />
           <span id="ts-login-erro" class="msg-erro"></span>
         </div>
-
+ 
         <div class="form-group">
           <label for="ts-senha">Nova Senha</label>
           <div class="senha-wrapper">
@@ -82,13 +92,12 @@
               class="btn-toggle-senha"
               onclick="toggleSenha('ts-senha', this)"
               aria-label="Mostrar ou ocultar senha">
-              👁️
             </button>
           </div>
           <span id="ts-senha-erro" class="msg-erro"></span>
           <span id="forca-senha" class="forca-senha"></span>
         </div>
-
+ 
         <div class="form-group">
           <label for="ts-confirma">Confirmar Nova Senha</label>
           <div class="senha-wrapper">
@@ -104,12 +113,11 @@
               class="btn-toggle-senha"
               onclick="toggleSenha('ts-confirma', this)"
               aria-label="Mostrar ou ocultar senha">
-              👁️
             </button>
           </div>
           <span id="ts-confirma-erro" class="msg-erro"></span>
         </div>
-
+ 
         <div class="form-group">
           <h4 class="instrucao-titulo">📋 Regras de composição da senha</h4>
           <textarea
@@ -119,7 +127,7 @@
             aria-label="Instruções sobre regras da senha">
           </textarea>
         </div>
-
+ 
         <div class="form-actions">
           <button
             type="button"
@@ -128,7 +136,7 @@
             onclick="trocarSenha()">
             🔒 Trocar Senha
           </button>
-
+ 
           <button
             type="button"
             id="btn-limpar-ts"
@@ -138,7 +146,7 @@
           </button>
         </div>
       </form>
-
+ 
       <div class="auth-links" style="margin-top:1.25rem;">
         <a href="login.html">← Voltar ao Login</a>
         &nbsp;·&nbsp;
@@ -146,34 +154,30 @@
       </div>
     </section>
   </main>
-
+ 
+  <!-- Firebase SDK (compat) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+ 
+  <script src="js/firebase-config.js"></script>
   <script src="js/validacoes.js"></script>
   <script src="js/main.js"></script>
-
+ 
   <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const output = document.getElementById('instrucao-senha-output');
-      if (output) {
-        output.value = INSTRUCAO_SENHA;
-      }
-
-      const tsLogin = document.getElementById('ts-login');
-      if (tsLogin) tsLogin.focus();
-    });
-
+    /* ── Indicador de força da senha ─────────────────────────── */
     function avaliarForcaSenha(senha) {
       const el = document.getElementById('forca-senha');
       if (!el) return;
-
       if (!senha) { el.textContent = ''; return; }
-
+ 
       let pontos = 0;
       if (senha.length >= 6)  pontos++;
       if (senha.length >= 10) pontos++;
       if (/[A-Z]/.test(senha)) pontos++;
       if (/\d/.test(senha))   pontos++;
       if (/[@#$%&*!?/\\|\-_+.=]/.test(senha)) pontos++;
-
+ 
       if (pontos <= 2) {
         el.className = 'forca-senha forca-fraca';
         el.textContent = '🔴 Senha fraca';
@@ -185,19 +189,22 @@
         el.textContent = '🟢 Senha forte';
       }
     }
-
-    function trocarSenha() {
+ 
+    /* ── Trocar senha via Firebase ───────────────────────────── */
+    async function trocarSenha() {
       const inLogin    = document.getElementById('ts-login');
       const inSenha    = document.getElementById('ts-senha');
       const inConfirma = document.getElementById('ts-confirma');
       const alerta     = document.getElementById('alerta-troca');
       const form       = document.getElementById('form-troca');
-
+      const btnTrocar  = document.getElementById('btn-trocar');
+ 
       limparTodosErros(form);
       ocultarAlerta(alerta);
-
+ 
       let valido = true;
-
+ 
+      /* ── Validações locais (requisito) ── */
       const emailVal = inLogin.value.trim();
       if (!emailVal) {
         mostrarErro(inLogin, 'O campo de e-mail (login) deve ser preenchido.');
@@ -206,7 +213,7 @@
         mostrarErro(inLogin, 'Informe um e-mail válido. Ex: usuario@dominio.com');
         valido = false;
       }
-
+ 
       const senhaVal = inSenha.value;
       if (!senhaVal) {
         mostrarErro(inSenha, 'A senha deve ser preenchida.');
@@ -218,56 +225,96 @@
           valido = false;
         }
       }
-
+ 
       const confirmaVal = inConfirma.value;
       if (!confirmaVal) {
         mostrarErro(inConfirma, 'A confirmação de senha deve ser preenchida.');
         valido = false;
-      } else if (valido && confirmaVal !== senhaVal) {
+      } else if (senhaVal && confirmaVal !== senhaVal) {
         mostrarErro(inConfirma, 'A confirmação de senha não coincide com a senha digitada.');
         valido = false;
       }
-
+ 
       if (!valido) {
         mostrarAlerta(alerta, 'Por favor, corrija os erros indicados.', 'erro');
         return;
       }
-
-      alert('Validação realizada com sucesso! Sua senha foi alterada.');
-      window.history.back();
+ 
+      /* ── Envio para o Firebase ── */
+      btnTrocar.disabled = true;
+      btnTrocar.textContent = '⏳ Enviando...';
+ 
+      try {
+        // Firebase envia um e-mail seguro de redefinição de senha
+        await fbAuth.sendPasswordResetEmail(emailVal);
+ 
+        mostrarAlerta(alerta,
+          '✅ Validação realizada com sucesso! Um link para redefinição de senha foi enviado para ' + emailVal + '. Verifique sua caixa de entrada (e o spam).',
+          'sucesso'
+        );
+ 
+        // Navega de volta após 3 segundos
+        setTimeout(() => window.history.back(), 3500);
+ 
+      } catch (err) {
+        console.error('Erro ao redefinir senha:', err);
+ 
+        let msg = 'Erro ao enviar o e-mail de redefinição. Tente novamente.';
+ 
+        switch (err.code) {
+          case 'auth/user-not-found':
+            msg = 'Nenhuma conta encontrada com este e-mail.';
+            mostrarErro(inLogin, msg);
+            break;
+          case 'auth/invalid-email':
+            msg = 'E-mail inválido.';
+            mostrarErro(inLogin, msg);
+            break;
+          case 'auth/too-many-requests':
+            msg = 'Muitas tentativas. Aguarde alguns minutos.';
+            break;
+          case 'auth/network-request-failed':
+            msg = 'Falha de conexão. Verifique sua internet.';
+            break;
+        }
+ 
+        mostrarAlerta(alerta, msg, 'erro');
+ 
+      } finally {
+        btnTrocar.disabled = false;
+        btnTrocar.innerHTML = '🔒 Trocar Senha';
+      }
     }
-
+ 
+    /* ── Limpar formulário ───────────────────────────────────── */
     function limparFormTroca() {
-      const inLogin    = document.getElementById('ts-login');
-      const inSenha    = document.getElementById('ts-senha');
-      const inConfirma = document.getElementById('ts-confirma');
-      const alerta     = document.getElementById('alerta-troca');
-      const form       = document.getElementById('form-troca');
-      const forca      = document.getElementById('forca-senha');
-
-      inLogin.value    = '';
-      inSenha.value    = '';
-      inConfirma.value = '';
-      inSenha.type = 'password';
-      inConfirma.type = 'password';
-
-      form.querySelectorAll('.btn-toggle-senha').forEach(function (btn) {
-        btn.textContent = '👁️';
-      });
-
+      const form    = document.getElementById('form-troca');
+      const alerta  = document.getElementById('alerta-troca');
+      const forca   = document.getElementById('forca-senha');
+ 
+      document.getElementById('ts-login').value    = '';
+      document.getElementById('ts-senha').value    = '';
+      document.getElementById('ts-confirma').value = '';
+ 
+      resetarBotoesSenha(form);
+ 
       if (forca) forca.textContent = '';
-
       limparTodosErros(form);
       ocultarAlerta(alerta);
-      inLogin.focus();
+      document.getElementById('ts-login').focus();
     }
-
+ 
+    /* ── Inicialização da página ─────────────────────────────── */
     document.addEventListener('DOMContentLoaded', function () {
-      ['ts-login', 'ts-senha', 'ts-confirma'].forEach(function (id) {
+      const output = document.getElementById('instrucao-senha-output');
+      if (output) output.value = INSTRUCAO_SENHA;
+ 
+      resetarBotoesSenha(document.getElementById('form-troca'));
+      document.getElementById('ts-login').focus();
+ 
+      ['ts-login', 'ts-senha', 'ts-confirma'].forEach(id => {
         const el = document.getElementById(id);
-        if (el) el.addEventListener('keydown', function (e) {
-          if (e.key === 'Enter') trocarSenha();
-        });
+        if (el) el.addEventListener('keydown', e => { if (e.key === 'Enter') trocarSenha(); });
       });
     });
   </script>

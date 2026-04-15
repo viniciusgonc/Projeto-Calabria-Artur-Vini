@@ -4,10 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ArtWinners TI — Soluções em Tecnologia da Informação</title>
-
+ 
   <!-- CSS externo (requisito: estilo em arquivo externo) -->
   <link rel="stylesheet" href="css/style.css" />
-
+ 
   <!-- CSS interno da página (requisito: style dentro da tag style) -->
   <style>
     /* Link da logo */
@@ -15,11 +15,11 @@
       display: inline-block;
       text-decoration: none;
     }
-
+ 
     .logo-link:hover {
       text-decoration: none;
     }
-
+ 
     /* Hero / Banner de topo */
     #hero {
       background: linear-gradient(135deg, var(--ink) 0%, #243347 60%, var(--brand-dark) 100%);
@@ -28,7 +28,7 @@
       position: relative;
       overflow: hidden;
     }
-
+ 
     #hero::before {
       content: '';
       position: absolute;
@@ -37,24 +37,24 @@
         radial-gradient(circle at 20% 80%,  rgba(0,187,119,.18) 0%, transparent 50%),
         radial-gradient(circle at 80% 20%,  rgba(0,187,119,.12) 0%, transparent 50%);
     }
-
+ 
     .hero-inner {
       position: relative;
       z-index: 1;
     }
-
+ 
     .hero-inner h1 {
       color: var(--white);
       font-size: 2.6rem;
       max-width: 700px;
       margin: 0 auto .75rem;
     }
-
+ 
     .hero-inner h1 em {
       color: var(--brand);
       font-style: normal;
     }
-
+ 
     .hero-tagline {
       color: rgba(255,255,255,.70);
       font-size: 1.1rem;
@@ -64,12 +64,12 @@
       margin-left: auto;
       margin-right: auto;
     }
-
+ 
     /* Sobrescrita: h2 dentro de .section-historia tem cor especial */
     .section-historia h2 {
       color: var(--brand-dark);
     }
-
+ 
     /* Acumulação: .historia-destaque acumula com p */
     .historia-destaque {
       font-size: 1.05rem;
@@ -81,7 +81,7 @@
       color: var(--ink);
       font-style: italic;
     }
-
+ 
     /* Serviços cards internos */
     .servico-card-inner {
       background: var(--white);
@@ -93,24 +93,24 @@
       border-top: 4px solid var(--brand);
       transition: var(--transition);
     }
-
+ 
     .servico-card-inner:hover {
       box-shadow: var(--shadow-md);
       transform: translateY(-3px);
     }
-
+ 
     .servico-card-inner .icone {
       font-size: 2.5rem;
       display: block;
       margin-bottom: .6rem;
     }
-
+ 
     .servico-card-inner h3 {
       font-size: 1rem;
       color: var(--ink);
       margin-bottom: .4rem;
     }
-
+ 
     .servico-card-inner p {
       font-size: .87rem;
       color: var(--ink-light);
@@ -119,45 +119,45 @@
   </style>
 </head>
 <body>
-
+ 
   <!-- ══════════ HEADER / NAV ══════════ -->
   <header id="main-header">
     <nav>
-  <a href="#main-content" class="logo-link">
-    <div class="logo-area">
-      <span class="logo-text">ArtWinners <strong>TI</strong></span>
-      <span class="logo-slogan">A arte que te faz vencer no mercado</span>
-    </div>
-  </a>
-
-  <ul class="nav-links">
-    <li id="nav-item-login">
-      <a href="login.html" class="nav-link">🔐 Login</a>
-    </li>
-
-    <li id="nav-item-cadastro">
-      <a href="cadastro.html" class="nav-link">📝 Cadastrar-se</a>
-    </li>
-
-    <li id="nav-item-servicos" style="display: none;">
-      <a href="servicos.html" class="nav-link nav-link-destaque">💼 Meus Serviços</a>
-    </li>
-
-    <li id="nav-item-logout" style="display: none;">
-      <a href="index.html" class="nav-link" onclick="Auth.logout()">
-        🚪 Encerrar sessão
+      <a href="#main-content" class="logo-link">
+        <div class="logo-area">
+          <span class="logo-text">ArtWinners <strong>TI</strong></span>
+          <span class="logo-slogan">A arte que te faz vencer no mercado</span>
+        </div>
       </a>
-    </li>
-  </ul>
-</nav>
+ 
+      <ul class="nav-links">
+        <li id="nav-item-login">
+          <a href="login.html" class="nav-link">🔐 Login</a>
+        </li>
+ 
+        <li id="nav-item-cadastro">
+          <a href="cadastro.html" class="nav-link">📝 Cadastrar-se</a>
+        </li>
+ 
+        <li id="nav-item-servicos" style="display: none;">
+          <a href="servicos.html" class="nav-link nav-link-destaque">💼 Meus Serviços</a>
+        </li>
+ 
+        <li id="nav-item-logout" style="display: none;">
+          <a href="index.html" class="nav-link" onclick="Auth.logout(); return true;">
+            🚪 Encerrar sessão
+          </a>
+        </li>
+      </ul>
+    </nav>
   </header>
-
+ 
   <!-- Faixa gradiente -->
   <div class="header-gradient-bar"></div>
-
+ 
   <!-- ══════════ CONTEÚDO PRINCIPAL ══════════ -->
   <main id="main-content">
-
+ 
     <!-- Seção Hero -->
     <section id="hero">
       <div class="container hero-inner">
@@ -176,12 +176,12 @@
         </div>
       </div>
     </section>
-
-    <!-- ── Nossa História ─────────────────────────────────────── -->
+ 
+    <!-- ── Nossa História ─────────────────────────────────────────── -->
     <section id="historia" class="section section-historia">
       <div class="container">
         <h2>Nossa História</h2>
-
+ 
         <!-- Uso de <p>, <strong>, <em>, <mark> como requisito -->
         <p class="section-lead">
           Fundada em <strong>2015</strong> na cidade de <mark>Recife–PE</mark>, a
@@ -189,20 +189,20 @@
           tecnologia que identificaram uma lacuna no mercado: empresas brasileiras precisando de
           soluções de TI robustas, mas sem acesso a equipes especializadas a um custo acessível.
         </p>
-
+ 
         <p class="historia-destaque">
           "Nossa missão é democratizar a tecnologia de ponta para empresas de todos os tamanhos,
           tornando a transformação digital acessível, segura e eficiente."
           <em>— Ana Paula Costa, CEO</em>
         </p>
-
+ 
         <p>
           Ao longo de quase uma <strong>década de operação</strong>, a ArtWinners TI cresceu de
           uma equipe de três pessoas para mais de <strong>60 profissionais certificados</strong>,
           atendendo mais de 300 clientes em todo o Brasil. Nossa trajetória é marcada pelo
           compromisso com a <em>excelência técnica</em> e pela parceria genuína com cada cliente.
         </p>
-
+ 
         <p>
           Em 2019, inauguramos nossa sede própria no bairro de Afogados, Recife, com um moderno
           laboratório de desenvolvimento e uma central de monitoramento 24×7 que garante
@@ -212,8 +212,8 @@
         </p>
       </div>
     </section>
-
-    <!-- ── Vídeo Institucional ─────────────────────────────────── -->
+ 
+    <!-- ── Vídeo Institucional ───────────────────────────────────── -->
     <section id="video" class="section section-alt">
       <div class="container">
         <h2>Vídeo Institucional</h2>
@@ -221,9 +221,8 @@
           Conheça nossa estrutura, equipe e como trabalhamos para entregar resultados
           reais aos nossos clientes.
         </p>
-
+ 
         <!-- Vídeo em STREAMING hospedado no YouTube (requisito) -->
-        <!-- ⚠️ Substitua VIDEO_ID_AQUI pelo ID do seu vídeo no YouTube -->
         <div class="video-wrapper">
           <iframe
             src="https://www.youtube.com/embed/dSu5sXmsur4?rel=0&modestbranding=1"
@@ -237,64 +236,43 @@
         </p>
       </div>
     </section>
-
-    <!-- ── Galeria de Fotos ────────────────────────────────────── -->
+ 
+    <!-- ── Galeria de Fotos ──────────────────────────────────────── -->
     <section id="galeria" class="section">
       <div class="container">
         <h2>Nossas Instalações</h2>
         <p class="section-lead">
           Um ambiente moderno, colaborativo e preparado para entregar o melhor em tecnologia.
         </p>
-
+ 
         <!-- Galeria com pelo menos 4 fotos (requisito) -->
         <!-- Usando Flexbox como técnica de alinhamento (requisito) -->
         <div class="gallery" role="list">
-
           <figure class="gallery-item" role="listitem">
-            <img
-              src="https://picsum.photos/seed/escritorio1/600/400"
-              alt="Sede da ArtWinners TI — área de desenvolvimento"
-              loading="lazy" />
+            <img src="https://picsum.photos/seed/escritorio1/600/400" alt="Sede da ArtWinners TI — área de desenvolvimento" loading="lazy" />
             <figcaption>Área de Desenvolvimento</figcaption>
           </figure>
-
           <figure class="gallery-item" role="listitem">
-            <img
-              src="https://picsum.photos/seed/server1/600/400"
-              alt="Data Center e Infraestrutura"
-              loading="lazy" />
+            <img src="https://picsum.photos/seed/server1/600/400" alt="Data Center e Infraestrutura" loading="lazy" />
             <figcaption>Data Center</figcaption>
           </figure>
-
           <figure class="gallery-item" role="listitem">
-            <img
-              src="https://picsum.photos/seed/team1/600/400"
-              alt="Equipe de Desenvolvimento"
-              loading="lazy" />
+            <img src="https://picsum.photos/seed/team1/600/400" alt="Equipe de Desenvolvimento" loading="lazy" />
             <figcaption>Nossa Equipe</figcaption>
           </figure>
-
           <figure class="gallery-item" role="listitem">
-            <img
-              src="https://picsum.photos/seed/meeting1/600/400"
-              alt="Sala de Reuniões e Treinamento"
-              loading="lazy" />
+            <img src="https://picsum.photos/seed/meeting1/600/400" alt="Sala de Reuniões e Treinamento" loading="lazy" />
             <figcaption>Sala de Treinamento</figcaption>
           </figure>
-
           <figure class="gallery-item" role="listitem">
-            <img
-              src="https://picsum.photos/seed/lab1/600/400"
-              alt="Laboratório de Testes e QA"
-              loading="lazy" />
+            <img src="https://picsum.photos/seed/lab1/600/400" alt="Laboratório de Testes e QA" loading="lazy" />
             <figcaption>Laboratório de QA</figcaption>
           </figure>
-
         </div>
       </div>
     </section>
-
-    <!-- ── Serviços de TI (apresentação estática) ─────────────── -->
+ 
+    <!-- ── Serviços de TI (apresentação estática) ───────────────── -->
     <section id="servicos-home" class="section section-alt">
       <div class="container">
         <h2>Principais Serviços de TI</h2>
@@ -302,7 +280,7 @@
           Soluções completas e personalizadas para transformar a tecnologia em vantagem competitiva
           para o seu negócio.
         </p>
-
+ 
         <!--
           Tabela usada para definir layout organizado (requisito do professor).
           Técnica de layout adicional: CSS Grid via .servicos-grid
@@ -314,30 +292,21 @@
                 <div class="servico-card-inner">
                   <span class="icone">💻</span>
                   <h3>Desenvolvimento de Software</h3>
-                  <p>
-                    Sistemas web, mobile e desktop sob medida, com metodologias
-                    ágeis (Scrum e Kanban) e entrega contínua.
-                  </p>
+                  <p>Sistemas web, mobile e desktop sob medida, com metodologias ágeis (Scrum e Kanban) e entrega contínua.</p>
                 </div>
               </td>
               <td>
                 <div class="servico-card-inner">
                   <span class="icone">🛡️</span>
                   <h3>Segurança da Informação</h3>
-                  <p>
-                    Auditoria, LGPD, testes de penetração e implementação de
-                    políticas de segurança corporativa.
-                  </p>
+                  <p>Auditoria, LGPD, testes de penetração e implementação de políticas de segurança corporativa.</p>
                 </div>
               </td>
               <td>
                 <div class="servico-card-inner">
                   <span class="icone">☁️</span>
                   <h3>Cloud Computing</h3>
-                  <p>
-                    Migração, arquitetura e gerenciamento de infraestrutura em
-                    AWS, Azure e Google Cloud Platform.
-                  </p>
+                  <p>Migração, arquitetura e gerenciamento de infraestrutura em AWS, Azure e Google Cloud Platform.</p>
                 </div>
               </td>
             </tr>
@@ -346,30 +315,21 @@
                 <div class="servico-card-inner">
                   <span class="icone">🔧</span>
                   <h3>Suporte Técnico Especializado</h3>
-                  <p>
-                    Atendimento 24×7, helpdesk estruturado e equipe certificada
-                    para resolver incidentes com agilidade.
-                  </p>
+                  <p>Atendimento 24×7, helpdesk estruturado e equipe certificada para resolver incidentes com agilidade.</p>
                 </div>
               </td>
               <td>
                 <div class="servico-card-inner">
                   <span class="icone">📊</span>
                   <h3>Consultoria em TI</h3>
-                  <p>
-                    Planejamento estratégico de tecnologia, mapeamento de processos
-                    e roadmap de transformação digital.
-                  </p>
+                  <p>Planejamento estratégico de tecnologia, mapeamento de processos e roadmap de transformação digital.</p>
                 </div>
               </td>
               <td>
                 <div class="servico-card-inner">
                   <span class="icone">🌐</span>
                   <h3>Gestão de Redes</h3>
-                  <p>
-                    Monitoramento proativo de redes, cabeamento estruturado,
-                    firewall e VPN para ambientes corporativos.
-                  </p>
+                  <p>Monitoramento proativo de redes, cabeamento estruturado, firewall e VPN para ambientes corporativos.</p>
                 </div>
               </td>
             </tr>
@@ -377,13 +337,13 @@
         </table>
       </div>
     </section>
-
-    <!-- ── Tabela de Fundadores ───────────────────────────────── -->
+ 
+    <!-- ── Tabela de Fundadores ──────────────────────────────────── -->
     <section id="fundadores" class="section">
       <div class="container">
         <h2>Nossos Fundadores</h2>
         <p class="section-lead">Conheça as pessoas que tornam a ArtWinners TI possível.</p>
-
+ 
         <!-- Tabela com cargo, nome e CV dos 3 fundadores (requisito) -->
         <div class="table-scroll">
           <table class="fundadores-table" aria-label="Fundadores da ArtWinners TI">
@@ -398,45 +358,30 @@
               <tr>
                 <td>CEO — Diretora Executiva</td>
                 <td>Ana Paula Costa</td>
-                <td>
-                  Bacharel em Sistemas de Informação pela UFPE com MBA em Gestão de Tecnologia
-                  e Inovação. Possui <strong>15 anos</strong> de experiência em gestão estratégica
-                  de TI, tendo atuado em grandes empresas do setor financeiro antes de fundar a
-                  ArtWinners TI. Palestrante nos eventos <em>TDC</em> e <em>Campus Party NE</em>.
-                </td>
+                <td>Bacharel em Sistemas de Informação pela UFPE com MBA em Gestão de Tecnologia e Inovação. Possui <strong>15 anos</strong> de experiência em gestão estratégica de TI. Palestrante nos eventos <em>TDC</em> e <em>Campus Party NE</em>.</td>
               </tr>
               <tr>
                 <td>CTO — Diretor de Tecnologia</td>
                 <td>Carlos Eduardo Lima</td>
-                <td>
-                  Engenheiro de Computação pela UNICAP, especialista em arquitetura de sistemas
-                  distribuídos e cloud computing. Certificado <strong>AWS Solutions Architect</strong>
-                  e <strong>Microsoft Azure Expert</strong>. Co-autor de dois artigos sobre
-                  microsserviços publicados em conferências internacionais.
-                </td>
+                <td>Engenheiro de Computação pela UNICAP, especialista em arquitetura de sistemas distribuídos e cloud computing. Certificado <strong>AWS Solutions Architect</strong> e <strong>Microsoft Azure Expert</strong>.</td>
               </tr>
               <tr>
                 <td>CFO — Diretora Financeira</td>
                 <td>Marina Santos Ferreira</td>
-                <td>
-                  Economista formada pela UFPE com pós-graduação em <em>Finanças Corporativas</em>
-                  e especialização em <strong>Fintech</strong>. Responsável pela estruturação
-                  financeira da empresa desde o início, garantindo crescimento sustentável e
-                  captação de investimentos para expansão dos serviços.
-                </td>
+                <td>Economista formada pela UFPE com pós-graduação em <em>Finanças Corporativas</em> e especialização em <strong>Fintech</strong>. Responsável pela estruturação financeira da empresa desde o início.</td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
     </section>
-
+ 
   </main>
-
+ 
   <!-- ══════════ FOOTER ══════════ -->
   <footer id="main-footer">
     <div class="footer-bg" aria-hidden="true"></div>
-
+ 
     <div class="footer-inner">
       <!--
         Tabela para layout do footer em 3 colunas (requisito do professor).
@@ -451,10 +396,10 @@
               <ul aria-label="Formas de contato">
                 <li>📞 <a href="tel:+558134567890">(81) 3456-7890</a></li>
                 <li>💬 <a href="tel:+5581995801980">(81) 99580-1980 (WhatsApp)</a></li>
-                <li>✉️ <a href="mailto:contato@jalegalizei.ti.br">contato@jalegalizei.ti.br</a></li>
+                <li>✉️ <a href="mailto:contato@artwinnersti.com.br">contato@artwinnersti.com.br</a></li>
               </ul>
             </td>
-
+ 
             <!-- Coluna 2: Endereço em texto (requisito) -->
             <td>
               <h4>Endereço</h4>
@@ -466,42 +411,38 @@
                 <strong>Horário:</strong> Seg–Sex, 08h–18h
               </address>
             </td>
-
+ 
             <!-- Coluna 3: Formas de pagamento (figuras / badges) (requisito) -->
             <td>
               <h4>Formas de Pagamento</h4>
               <div class="footer-payment" role="list" aria-label="Formas de pagamento aceitas">
-                <figure role="listitem" style="margin:0">
-                  <span class="payment-badge">💳 Cartão de Crédito</span>
-                </figure>
-                <figure role="listitem" style="margin:0">
-                  <span class="payment-badge">🔑 Pix</span>
-                </figure>
-                <figure role="listitem" style="margin:0">
-                  <span class="payment-badge">📄 Boleto</span>
-                </figure>
-                <figure role="listitem" style="margin:0">
-                  <span class="payment-badge">🏦 Transferência</span>
-                </figure>
+                <figure role="listitem" style="margin:0"><span class="payment-badge">💳 Cartão de Crédito</span></figure>
+                <figure role="listitem" style="margin:0"><span class="payment-badge">🔑 Pix</span></figure>
+                <figure role="listitem" style="margin:0"><span class="payment-badge">📄 Boleto</span></figure>
+                <figure role="listitem" style="margin:0"><span class="payment-badge">🏦 Transferência</span></figure>
               </div>
             </td>
           </tr>
         </tbody>
       </table>
-
+ 
       <p class="footer-copy">
         © <span id="ano-atual"></span> ArtWinners TI — Todos os direitos reservados.
         CNPJ 00.000.000/0001-00
       </p>
     </div>
   </footer>
-
-  <!-- JS (main.js controla estado de login e nav) -->
+ 
+  <!-- Firebase SDK (compat) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+ 
+  <script src="js/firebase-config.js"></script>
   <script src="js/main.js"></script>
   <script>
-    // Ano atual no footer (uso inline moderado — requisito)
     document.getElementById('ano-atual').textContent = new Date().getFullYear();
   </script>
-
+ 
 </body>
 </html>

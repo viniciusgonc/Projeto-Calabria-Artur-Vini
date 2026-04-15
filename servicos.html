@@ -4,29 +4,27 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Solicitação de Serviços de TI — ArtWinners TI</title>
-
+ 
   <!-- CSS externo -->
   <link rel="stylesheet" href="css/style.css" />
-
+ 
   <!-- CSS interno da página -->
   <style>
-    /* Link da logo */
     .logo-link {
       display: inline-block;
       text-decoration: none;
     }
-
+ 
     .logo-link:hover {
       text-decoration: none;
     }
-
-    /* Seções da página de serviços */
+ 
     .servicos-page-wrapper {
       max-width: 1100px;
       margin: 0 auto;
       padding: 2rem 1.5rem;
     }
-
+ 
     /* Cabeçalho de seção interna */
     .secao-titulo {
       font-size: 1.2rem;
@@ -38,7 +36,7 @@
       gap: .5rem;
       font-family: var(--font-heading);
     }
-
+ 
     /* Acumulação: .secao-titulo::after adiciona linha decorativa */
     .secao-titulo::after {
       content: '';
@@ -47,8 +45,7 @@
       background: var(--brand-tint);
       border-radius: 2px;
     }
-
-    /* Card da solicitação */
+ 
     .solicitacao-card {
       background: var(--white);
       border-radius: var(--radius-lg);
@@ -56,7 +53,7 @@
       padding: 1.75rem;
       margin-bottom: 2rem;
     }
-
+ 
     /* Sobrescrita: labels de info do serviço têm estilo diferente */
     .info-label {
       font-family: var(--font-heading);
@@ -65,21 +62,20 @@
       display: block;
       margin-bottom: .2rem;
     }
-
+ 
     .info-valor {
       font-family: var(--font-heading);
       font-size: 1.1rem;
       font-weight: 700;
       color: var(--brand-dark);
     }
-
+ 
     /* Seletor de atributo: select de serviços */
     select[id="sel-servico"] {
       border: 2px solid var(--brand);
       font-weight: 600;
     }
-
-    /* Grid de labels do serviço selecionado */
+ 
     .servico-info-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -90,22 +86,20 @@
       border-radius: var(--radius);
       border: 1px solid rgba(0,187,119,.2);
     }
-
+ 
     /* Seletor descendente: p dentro de .servico-info-grid */
     .servico-info-grid p {
       margin-bottom: 0;
       color: var(--ink-light);
       font-size: .8rem;
     }
-
-    /* Status "EM ELABORAÇÃO" — inline */
+ 
     #lbl-status {
       color: #b7791f;
       font-weight: 700;
       font-family: var(--font-heading);
     }
-
-    /* Contador de registros */
+ 
     .contador-badge {
       display: inline-flex;
       align-items: center;
@@ -119,10 +113,17 @@
       font-weight: 700;
       margin-left: .5rem;
     }
+ 
+    /* Loading spinner */
+    .loading-row td {
+      text-align: center;
+      padding: 2.5rem;
+      color: var(--ink-light);
+    }
   </style>
 </head>
 <body>
-
+ 
   <!-- ══════════ HEADER ══════════ -->
   <header id="main-header">
     <nav>
@@ -148,22 +149,21 @@
     </nav>
   </header>
   <div class="header-gradient-bar"></div>
-
+ 
   <!-- ══════════ CONTEÚDO PRINCIPAL ══════════ -->
   <main id="main-content">
     <div class="servicos-page-wrapper">
-
+ 
       <h1 style="font-size:1.6rem; margin-bottom:.25rem;">Solicitação de Serviços de TI</h1>
       <p style="color:var(--ink-light); margin-bottom:1.75rem; font-size:.95rem;">
         Gerencie suas solicitações e adicione novos serviços de TI.
       </p>
-
+ 
       <!-- ── Seção 1: Informações do Usuário Logado (requisito) ─── -->
       <section aria-label="Dados do usuário logado">
         <div class="user-info-bar">
           <div>
             <span class="info-label">Usuário logado:</span>
-            <!-- Labels com valores fixos (requisito desta versão) -->
             <span class="info-valor" id="lbl-nome-usuario">Carregando...</span>
           </div>
           <div>
@@ -180,18 +180,18 @@
           </div>
         </div>
       </section>
-
-      <!-- ── Seção 2: Tabela de Solicitações Existentes (requisito) ── -->
+ 
+      <!-- ── Seção 2: Tabela de Solicitações (requisito) ── -->
       <section aria-label="Minhas solicitações de serviços">
         <h2 class="secao-titulo">
           📋 Minhas Solicitações
           <span class="contador-badge" id="contador-sol">0</span>
         </h2>
-
+ 
         <!--
           Tabela com: data do pedido, nº solicitação, serviço, status,
           preço, data prevista e botão excluir (requisito).
-          Ordenada crescentemente por data de pedido (requisito).
+          Ordenada crescentemente por data de pedido (via Firestore orderBy).
           Scroll automático para conteúdo longo (requisito).
         -->
         <div class="table-scroll">
@@ -208,35 +208,27 @@
               </tr>
             </thead>
             <tbody id="tbody-solicitacoes">
-              <!-- Preenchido dinamicamente por servicos.js -->
-              <tr>
-                <td colspan="7" style="text-align:center; padding:2rem; color:#4a5568;">
-                  Carregando solicitações...
-                </td>
+              <tr class="loading-row">
+                <td colspan="7">⏳ Carregando solicitações...</td>
               </tr>
             </tbody>
           </table>
         </div>
-
-        <!-- Contador atualizado por JS -->
-        <p id="msg-sem-sol" style="display:none; text-align:center; color:var(--ink-light); margin-top:1rem;">
-          Nenhuma solicitação cadastrada ainda. Use o formulário abaixo para adicionar.
-        </p>
       </section>
-
+ 
       <!-- ── Seção 3: Formulário de Nova Solicitação (requisito) ─── -->
       <section aria-label="Adicionar nova solicitação de serviço" style="margin-top:2.5rem;">
         <h2 class="secao-titulo">➕ Nova Solicitação</h2>
-
+ 
         <div class="solicitacao-card">
           <div class="form-group">
             <label for="sel-servico">Serviço de TI <strong style="color:#c53030;">*</strong></label>
             <!-- Combo box com serviços disponíveis (requisito) -->
             <select id="sel-servico" aria-label="Selecione o serviço de TI desejado">
-              <!-- Populado dinamicamente por servicos.js -->
+              <option value="">-- Selecione um serviço --</option>
             </select>
           </div>
-
+ 
           <!--
             Labels preenchidos automaticamente conforme o serviço selecionado:
             - Preço: label preenchido por JS (requisito)
@@ -259,30 +251,29 @@
             </div>
             <div>
               <span class="info-label">🔄 Status</span>
-              <!-- Status inicial fixo (requisito) -->
               <span id="lbl-status">--</span>
             </div>
           </div>
-
+ 
           <div style="display:flex; gap:.75rem; flex-wrap:wrap;">
-            <!-- Botão Incluir (já deve incluir na tabela — requisito) -->
+            <!-- Botão Incluir (inclui na tabela via Firestore — requisito) -->
             <button
               type="button"
               id="btn-incluir-servico"
               class="btn btn-primary">
               ✅ Incluir Solicitação
             </button>
-
+ 
             <a href="index.html" class="btn btn-outline">
               🏠 Voltar à Página Inicial
             </a>
           </div>
         </div>
       </section>
-
+ 
     </div>
   </main>
-
+ 
   <!-- ══════════ FOOTER ══════════ -->
   <footer id="main-footer">
     <div class="footer-bg" aria-hidden="true"></div>
@@ -295,7 +286,7 @@
               <ul>
                 <li>📞 <a href="tel:+558134567890">(81) 3456-7890</a></li>
                 <li>💬 <a href="tel:+5581995801980">(81) 99580-1980</a></li>
-                <li>✉️ <a href="mailto:contato@jalegalizei.ti.br">contato@jalegalizei.ti.br</a></li>
+                <li>✉️ <a href="mailto:contato@artwinnersti.com.br">contato@artwinnersti.com.br</a></li>
               </ul>
             </td>
             <td>
@@ -323,40 +314,21 @@
       </p>
     </div>
   </footer>
-
-  <!-- JS (ORDEM IMPORTANTE: validacoes → main → servicos) -->
+ 
+  <!-- Firebase SDK (compat) — DEVE VIR ANTES DOS SCRIPTS DO PROJETO -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+ 
+  <!-- Ordem obrigatória: firebase-config → validacoes → main → servicos -->
+  <script src="js/firebase-config.js"></script>
   <script src="js/validacoes.js"></script>
   <script src="js/main.js"></script>
   <script src="js/servicos.js"></script>
+ 
   <script>
     document.getElementById('ano-sv').textContent = new Date().getFullYear();
-
-    // Atualiza contador de solicitações sempre que a tabela muda
-    const observer = new MutationObserver(function () {
-      const tbody  = document.getElementById('tbody-solicitacoes');
-      const span   = document.getElementById('contador-sol');
-      if (!tbody || !span) return;
-      const linhasValidas = tbody.querySelectorAll('tr[data-id]').length;
-      // Conta linhas sem a mensagem "nenhuma"
-      const total = tbody.querySelectorAll('tr').length;
-      // Se tbody tem conteúdo real (não placeholder), conta as linhas
-      const semMsg = document.getElementById('msg-sem-sol');
-      const rows   = tbody.querySelectorAll('td[data-status]');
-      span.textContent = rows.length > 0 ? rows.length : '0';
-    });
-
-    document.addEventListener('DOMContentLoaded', function () {
-      const tbody = document.getElementById('tbody-solicitacoes');
-      if (tbody) observer.observe(tbody, { childList: true, subtree: true });
-
-      // Atualiza contador após render inicial
-      setTimeout(function () {
-        const rows  = document.querySelectorAll('#tbody-solicitacoes td[data-status]');
-        const span  = document.getElementById('contador-sol');
-        if (span) span.textContent = rows.length;
-      }, 200);
-    });
   </script>
-
+ 
 </body>
 </html>
