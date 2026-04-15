@@ -1,11 +1,3 @@
-/* ============================================================
-   JaLegalizei TI — Folha de Estilos Principal
-   Arquivo externo (CSS externo + style na página + inline moderado)
-   Cobre: seletores de tipo, classe, id, atributo, descendente,
-   pseudo-classe, pseudo-elemento | acumulação | sobrescrita
-   ============================================================ */
-
-/* ── Variáveis de tema (CSS Custom Properties) ─────────────── */
 :root {
   --brand:       #00BB77;
   --brand-dark:  #009E69;
@@ -26,7 +18,6 @@
   --font-body:    Georgia, 'Times New Roman', serif;
 }
 
-/* ── Seletor de tipo: Reset e base ──────────────────────────── */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -34,13 +25,13 @@
 }
 
 html {
-  scroll-behavior: smooth;       /* alinhamento / scroll suave */
+  scroll-behavior: smooth;
   font-size: 16px;
   overflow-x: hidden;
 }
 
 body {
-  font-family: var(--font-body);  /* fonte de parágrafos */
+  font-family: var(--font-body);
   color: var(--ink);
   background-color: var(--white);
   line-height: 1.65;
@@ -49,10 +40,8 @@ body {
   flex-direction: column;
 }
 
-/* ── Seletor de tipo: Tipografia ────────────────────────────── */
-/* Diferenciar fontes de parágrafos e de cabeçalhos */
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-heading); /* fonte de cabeçalhos — diferente dos parágrafos */
+  font-family: var(--font-heading);
   font-weight: 700;
   line-height: 1.25;
   color: var(--ink);
@@ -64,19 +53,17 @@ h3 { font-size: 1.3rem; }
 h4 { font-size: 1.1rem; }
 
 p {
-  font-family: var(--font-body);   /* acumulação: body já define, mas p reafirma */
+  font-family: var(--font-body);
   margin-bottom: 1rem;
   color: var(--ink-light);
 }
 
-/* Seletor de tipo: links */
 a {
   color: var(--brand-dark);
   text-decoration: none;
   transition: var(--transition);
 }
 
-/* Pseudo-classe :hover */
 a:hover {
   color: var(--brand);
   text-decoration: underline;
@@ -95,13 +82,11 @@ img {
   display: block;
 }
 
-/* ── Seletor de tipo: formulários ───────────────────────────── */
 input, select, textarea, button {
   font-family: var(--font-body);
   font-size: 1rem;
 }
 
-/* Seletor de atributo */
 input[type="text"],
 input[type="email"],
 input[type="password"],
@@ -117,7 +102,6 @@ input[type="tel"] {
   outline: none;
 }
 
-/* Pseudo-classe :focus */
 input[type="text"]:focus,
 input[type="email"]:focus,
 input[type="password"]:focus,
@@ -127,7 +111,6 @@ input[type="tel"]:focus {
   box-shadow: 0 0 0 3px rgba(0,187,119,.15);
 }
 
-/* Seletor de atributo: placeholder */
 input::placeholder {
   color: var(--gray-300);
   font-style: italic;
@@ -160,27 +143,23 @@ textarea {
   resize: vertical;
   min-height: 90px;
   outline: none;
-  overflow-y: auto;  /* controle de barra de rolagem para conteúdo longo */
+  overflow-y: auto;
 }
 
-/* ── ID: Container genérico ────────────────────────────────── */
 #main-content {
   flex: 1;
 }
 
-/* ── CLASSE: Container de largura ───────────────────────────── */
 .container {
   max-width: 1160px;
   margin: 0 auto;
   padding: 0 1.5rem;
 }
 
-/* ── CLASSE: Seções ─────────────────────────────────────────── */
 .section {
   padding: 60px 0;
 }
 
-/* Acumulação: .section-alt acumula com .section */
 .section-alt {
   background-color: var(--gray-100);
 }
@@ -189,7 +168,6 @@ textarea {
   background-color: var(--brand-tint);
 }
 
-/* Seletor descendente: h2 dentro de .section */
 .section h2 {
   margin-bottom: 1rem;
   color: var(--ink);
@@ -197,7 +175,6 @@ textarea {
   display: inline-block;
 }
 
-/* Pseudo-elemento ::after para linha decorativa nos títulos */
 .section h2::after {
   content: '';
   display: block;
@@ -214,7 +191,6 @@ textarea {
   margin-bottom: 2.5rem;
 }
 
-/* ── ID: Header principal ──────────────────────────────────── */
 #main-header {
   position: sticky;
   top: 0;
@@ -223,7 +199,6 @@ textarea {
   box-shadow: var(--shadow-md);
 }
 
-/* Seletor descendente: nav dentro do header */
 #main-header nav {
   display: flex;
   align-items: center;
@@ -235,7 +210,6 @@ textarea {
   margin: 0 auto;
 }
 
-/* ── CLASSE: Logo ───────────────────────────────────────────── */
 .logo-area {
   display: flex;
   flex-direction: column;
@@ -250,7 +224,6 @@ textarea {
   letter-spacing: -.5px;
 }
 
-/* Seletor descendente: strong dentro do logo */
 .logo-text strong {
   color: var(--brand);
 }
@@ -264,7 +237,6 @@ textarea {
   margin-bottom: 0;
 }
 
-/* ── CLASSE: Navegação links ────────────────────────────────── */
 .nav-links {
   list-style: none;
   display: flex;
@@ -273,7 +245,6 @@ textarea {
   padding: 0;
 }
 
-/* Seletor descendente: a dentro de .nav-links li */
 .nav-links li a {
   color: rgba(255,255,255,.80);
   font-family: var(--font-heading);
@@ -284,14 +255,12 @@ textarea {
   display: inline-block;
 }
 
-/* Pseudo-classe :hover — sobrescreve o a:hover genérico */
 .nav-links li a:hover {
   color: var(--white);
   background: rgba(255,255,255,.10);
   text-decoration: none;
 }
 
-/* Acumulação: .nav-link-destaque acumula estilo do link padrão */
 .nav-link-destaque {
   background: var(--brand) !important;
   color: var(--white) !important;
@@ -302,14 +271,11 @@ textarea {
   background: var(--brand-dark) !important;
 }
 
-/* Faixa gradiente abaixo do header (igual ao React original) */
 .header-gradient-bar {
   height: 2px;
   background: linear-gradient(90deg, var(--brand), #19b581, var(--ink));
 }
 
-/* ── CLASSE: Botões ─────────────────────────────────────────── */
-/* Acumulação: .btn é a base; .btn-primary, .btn-secondary, etc. acumulam */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -327,14 +293,12 @@ textarea {
   line-height: 1;
 }
 
-/* Acumulação com .btn */
 .btn-primary {
   background: linear-gradient(135deg, var(--brand), var(--brand-dark));
   color: var(--white);
   box-shadow: 0 4px 14px rgba(0,187,119,.3);
 }
 
-/* Pseudo-classe :hover no botão primário */
 .btn-primary:hover {
   background: var(--white);
   color: var(--brand);
@@ -342,7 +306,6 @@ textarea {
   box-shadow: none;
 }
 
-/* Sobrescrita: .btn-secondary tem cor diferente de .btn-primary */
 .btn-secondary {
   background: var(--ink);
   color: var(--white);
@@ -379,7 +342,6 @@ textarea {
   text-decoration: none;
 }
 
-/* Acumulação: .btn-lg acumula com qualquer variante de .btn */
 .btn-lg {
   padding: .85rem 2rem;
   font-size: 1.05rem;
@@ -389,7 +351,6 @@ textarea {
   width: 100%;
 }
 
-/* ── CLASSE: Cards ──────────────────────────────────────────── */
 .card {
   background: var(--white);
   border-radius: var(--radius-lg);
@@ -398,13 +359,11 @@ textarea {
   transition: var(--transition);
 }
 
-/* Pseudo-classe :hover no card */
 .card:hover {
   box-shadow: var(--shadow-md);
   transform: translateY(-2px);
 }
 
-/* Seletor filho: h3 direto de .card */
 .card > h3 {
   font-size: 1.1rem;
   margin-bottom: .6rem;
@@ -417,19 +376,17 @@ textarea {
   display: block;
 }
 
-/* Acumulação: .card-tinted acumula com .card */
 .card-tinted {
   background: var(--brand-tint);
   border: 1px solid rgba(0,187,119,.2);
 }
 
-/* ── CLASSE: Galeria de fotos ───────────────────────────────── */
 .gallery {
-  display: flex;              /* técnica de alinhamento: Flexbox */
+  display: flex;
   flex-wrap: wrap;
   gap: 1rem;
   justify-content: center;
-  overflow: auto;             /* controle de barra de rolagem */
+  overflow: auto;
 }
 
 .gallery-item {
@@ -441,7 +398,6 @@ textarea {
   position: relative;
 }
 
-/* Seletor de tipo: img dentro de .gallery-item */
 .gallery-item img {
   width: 100%;
   height: 200px;
@@ -453,7 +409,6 @@ textarea {
   transform: scale(1.05);
 }
 
-/* Pseudo-elemento ::after overlay */
 .gallery-item::after {
   content: '';
   position: absolute;
@@ -474,7 +429,6 @@ textarea {
   z-index: 2;
 }
 
-/* ── CLASSE: Tabela de serviços (layout) ───────────────────── */
 .servicos-table {
   width: 100%;
   border-collapse: separate;
@@ -486,7 +440,6 @@ textarea {
   width: 33.33%;
 }
 
-/* ── CLASSE: Tabela de dados ────────────────────────────────── */
 .tabela-dados {
   width: 100%;
   border-collapse: collapse;
@@ -513,7 +466,6 @@ textarea {
   letter-spacing: .5px;
 }
 
-/* Pseudo-classe :nth-child para linhas alternadas */
 .tabela-dados tr:nth-child(even) td {
   background: var(--gray-100);
 }
@@ -522,20 +474,17 @@ textarea {
   background: var(--white);
 }
 
-/* Pseudo-classe :hover na linha da tabela */
 .tabela-dados tr:hover td {
   background: var(--brand-tint);
 }
 
-/* Seletor de atributo: data-status */
 td[data-status="EM ELABORAÇÃO"] {
   color: #b7791f;
   font-weight: 600;
 }
 td[data-status="EM ANDAMENTO"]  { color: var(--brand-dark); font-weight: 600; }
-td[data-status="CONCLUÍDO"]     { color: #276749;            font-weight: 600; }
+td[data-status="CONCLUÍDO"]     { color: #276749; font-weight: 600; }
 
-/* ── CLASSE: Formulários ────────────────────────────────────── */
 .form-wrapper {
   max-width: 540px;
   margin: 0 auto;
@@ -549,7 +498,6 @@ td[data-status="CONCLUÍDO"]     { color: #276749;            font-weight: 600; 
   margin-bottom: 1.25rem;
 }
 
-/* Seletor irmão adjacente: .form-group + .form-group */
 .form-group + .form-group {
   border-top: 1px solid var(--gray-200);
   padding-top: 1.25rem;
@@ -564,7 +512,6 @@ td[data-status="CONCLUÍDO"]     { color: #276749;            font-weight: 600; 
   margin-bottom: .4rem;
 }
 
-/* Acumulação: .form-group-inline acumula com .form-group */
 .form-group-inline {
   display: flex;
   gap: 1.5rem;
@@ -582,13 +529,36 @@ td[data-status="CONCLUÍDO"]     { color: #276749;            font-weight: 600; 
   border-top: 1px solid var(--gray-200);
 }
 
-/* Seletor descendente: .form-actions .btn */
 .form-actions .btn {
   flex: 1;
   min-width: 120px;
 }
 
-/* ── CLASSE: Mensagens de validação ──────────────────────────── */
+.senha-wrapper {
+  position: relative;
+}
+
+.senha-wrapper input {
+  padding-right: 3rem;
+}
+
+.btn-toggle-senha {
+  position: absolute;
+  top: 50%;
+  right: .85rem;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  padding: 0;
+}
+
+.btn-toggle-senha:hover {
+  opacity: .8;
+}
+
 .msg-erro {
   color: #c53030;
   font-size: .83rem;
@@ -617,7 +587,6 @@ td[data-status="CONCLUÍDO"]     { color: #276749;            font-weight: 600; 
 .alerta-box.erro   { background: #fff5f5; color: #c53030; border-color: #fc8181; }
 .alerta-box.sucesso{ background: #f0fff4; color: #276749; border-color: var(--brand); }
 
-/* Instrução de senha */
 .instrucao-senha {
   background: var(--gray-100);
   border: 1px solid var(--gray-200);
@@ -628,11 +597,10 @@ td[data-status="CONCLUÍDO"]     { color: #276749;            font-weight: 600; 
   line-height: 1.7;
   font-family: var(--font-body);
   white-space: pre-wrap;
-  overflow-y: auto;    /* scroll para conteúdo longo */
+  overflow-y: auto;
   max-height: 200px;
 }
 
-/* Radio e Checkbox */
 .radio-group, .check-group {
   display: flex;
   flex-wrap: wrap;
@@ -650,7 +618,6 @@ td[data-status="CONCLUÍDO"]     { color: #276749;            font-weight: 600; 
   margin-bottom: 0;
 }
 
-/* Seletor de atributo */
 input[type="radio"], input[type="checkbox"] {
   accent-color: var(--brand);
   width: 16px;
@@ -658,7 +625,6 @@ input[type="radio"], input[type="checkbox"] {
   cursor: pointer;
 }
 
-/* ── CLASSE: Página de login / auth ──────────────────────────── */
 .auth-page {
   min-height: 100vh;
   display: flex;
@@ -672,7 +638,6 @@ input[type="radio"], input[type="checkbox"] {
   text-align: center;
 }
 
-/* Seletor descendente: h1 dentro de .auth-header */
 .auth-header h1 {
   color: var(--white);
   font-size: 1.35rem;
@@ -723,7 +688,6 @@ input[type="radio"], input[type="checkbox"] {
   font-weight: 600;
 }
 
-/* ── ID: Footer ──────────────────────────────────────────────── */
 #main-footer {
   position: relative;
   overflow: hidden;
@@ -748,7 +712,6 @@ input[type="radio"], input[type="checkbox"] {
   margin: 0 auto;
 }
 
-/* Tabela do footer (layout de 3 colunas) — requisito professor */
 .footer-table {
   width: 100%;
   border-collapse: collapse;
@@ -760,10 +723,8 @@ input[type="radio"], input[type="checkbox"] {
   width: 33.33%;
 }
 
-/* Primeiro filho: sem padding esquerdo */
 .footer-table td:first-child { padding-left: 0; }
 
-/* Seletor descendente: h4 dentro do footer */
 #main-footer h4 {
   font-family: var(--font-heading);
   font-size: 1rem;
@@ -772,7 +733,6 @@ input[type="radio"], input[type="checkbox"] {
   margin-bottom: .85rem;
 }
 
-/* Seletor descendente: ul dentro do footer */
 #main-footer ul {
   list-style: none;
   padding: 0;
@@ -784,7 +744,6 @@ input[type="radio"], input[type="checkbox"] {
   font-size: .9rem;
 }
 
-/* Seletor de atributo: link de email (mailto) e tel no footer */
 a[href^="mailto:"] { color: rgba(255,255,255,.85); }
 a[href^="tel:"]    { color: rgba(255,255,255,.85); }
 
@@ -828,10 +787,9 @@ a[href^="tel:"]:hover {
   text-align: center;
 }
 
-/* ── CLASSE: Vídeo responsivo ───────────────────────────────── */
 .video-wrapper {
   position: relative;
-  padding-bottom: 56.25%; /* 16:9 */
+  padding-bottom: 56.25%;
   height: 0;
   overflow: hidden;
   border-radius: var(--radius-lg);
@@ -848,15 +806,13 @@ a[href^="tel:"]:hover {
   border-radius: var(--radius-lg);
 }
 
-/* ── CLASSE: Grid de serviços (técnica de layout: Grid) ─────── */
 .servicos-grid {
-  display: grid;                            /* CSS Grid Layout */
+  display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 1.25rem;
   margin-top: 2rem;
 }
 
-/* ── CLASSE: Tabela de fundadores ───────────────────────────── */
 .fundadores-table {
   width: 100%;
   border-collapse: collapse;
@@ -880,12 +836,10 @@ a[href^="tel:"]:hover {
   letter-spacing: .5px;
 }
 
-/* Pseudo-classe :nth-child nas linhas dos fundadores */
 .fundadores-table tr:nth-child(even) td { background: var(--brand-tint); }
 .fundadores-table tr:nth-child(odd) td  { background: var(--white); }
 .fundadores-table td:first-child        { font-weight: 700; color: var(--ink); }
 
-/* ── Serviços Page ───────────────────────────────────────────── */
 .user-info-bar {
   background: var(--brand-tint);
   border: 1px solid rgba(0,187,119,.3);
@@ -908,21 +862,18 @@ a[href^="tel:"]:hover {
   color: var(--brand-dark);
 }
 
-/* ── CLASSE: Controle de scroll em tabelas longas ──────────── */
 .table-scroll {
-  overflow-x: auto;        /* rolagem horizontal para tabelas largas */
-  overflow-y: auto;        /* rolagem vertical para muitas linhas   */
+  overflow-x: auto;
+  overflow-y: auto;
   max-height: 420px;
   border-radius: var(--radius);
   border: 1px solid var(--gray-200);
 }
 
-/* Seletor descendente: tabela dentro de .table-scroll */
 .table-scroll > table {
   min-width: 900px;
 }
 
-/* ── Media queries ──────────────────────────────────────────── */
 @media (max-width: 768px) {
   h1 { font-size: 1.6rem; }
   h2 { font-size: 1.35rem; }

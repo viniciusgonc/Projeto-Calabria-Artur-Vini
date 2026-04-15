@@ -3,20 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Login de Clientes — JaLegalizei TI</title>
-
-  <!-- CSS externo -->
+  <title>Login de Clientes — ArtWinners TI</title>
   <link rel="stylesheet" href="css/style.css" />
-
-  <!-- CSS interno da página -->
   <style>
-    /* Sobrescrita: .btn-primary dentro do form-login tem largura total */
     #form-login .btn-primary {
       background: linear-gradient(135deg, var(--brand), var(--brand-dark));
       letter-spacing: .5px;
     }
 
-    /* Acumulação: .link-troca-senha acumula com a */
     .link-troca-senha {
       font-size: .85rem;
       color: var(--ink-light);
@@ -30,7 +24,6 @@
       color: var(--brand);
     }
 
-    /* Separador visual */
     .divider {
       display: flex;
       align-items: center;
@@ -49,35 +42,25 @@
   </style>
 </head>
 <body class="auth-page">
-
-  <!-- Header simples com logo (requisito) -->
   <header class="auth-header">
     <div class="logo-area" style="align-items:center;">
-      <span class="logo-text">JaLegalizei <strong>TI</strong></span>
-      <span class="logo-slogan">Tecnologia que legaliza o seu futuro</span>
+      <span class="logo-text">ArtWinners <strong>TI</strong></span>
+      <span class="logo-slogan">A arte que te faz vencer no mercado</span>
     </div>
   </header>
   <div class="header-gradient-bar"></div>
 
-  <!-- Conteúdo principal -->
   <main class="auth-main">
     <section class="form-wrapper" aria-label="Formulário de login">
-
-      <!-- Logo da empresa (requisito) -->
       <div class="auth-logo">
-        <span>JaLegalizei</span> <span style="color: var(--brand);">TI</span>
+        <span>ArtWinners</span> <span style="color: var(--brand);">TI</span>
       </div>
 
-      <!-- Identificação da página (requisito) -->
       <h1 class="auth-title">Login de Clientes</h1>
 
-      <!-- Caixa de alertas (mensagens de erro / sucesso) -->
       <div id="alerta-login" class="alerta-box erro" style="display:none;"></div>
 
-      <!-- Formulário de login -->
       <form id="form-login" novalidate autocomplete="off">
-
-        <!-- Campo de e-mail / login (requisito) -->
         <div class="form-group">
           <label for="input-login">E-mail (Login)</label>
           <input
@@ -87,29 +70,34 @@
             placeholder="seu@email.com"
             autocomplete="username"
             maxlength="120" />
-          <!-- Mensagem de erro inline (label específico) -->
           <span id="input-login-erro" class="msg-erro"></span>
         </div>
 
-        <!-- Link para troca de senha (requisito: deve aparecer na página de login) -->
         <a href="troca-senha.html" class="link-troca-senha">Esqueceu sua senha?</a>
 
-        <!-- Campo de senha (requisito) -->
         <div class="form-group">
           <label for="input-senha">Senha</label>
-          <input
-            type="password"
-            id="input-senha"
-            name="senha"
-            placeholder="Digite sua senha"
-            autocomplete="current-password"
-            maxlength="64" />
+          <div class="senha-wrapper">
+            <input
+              type="password"
+              id="input-senha"
+              name="senha"
+              placeholder="Digite sua senha"
+              autocomplete="current-password"
+              maxlength="64" />
+            <button
+              type="button"
+              class="btn-toggle-senha"
+              onclick="toggleSenha('input-senha', this)"
+              aria-label="Mostrar senha"
+              title="Mostrar senha">
+              👁️
+            </button>
+          </div>
           <span id="input-senha-erro" class="msg-erro"></span>
         </div>
 
-        <!-- Ações do formulário -->
         <div class="form-actions">
-          <!-- Botão Realizar Login (requisito) -->
           <button
             type="button"
             id="btn-login"
@@ -118,7 +106,6 @@
             🔐 Realizar Login
           </button>
 
-          <!-- Botão Limpar (requisito) -->
           <button
             type="button"
             id="btn-limpar"
@@ -127,49 +114,34 @@
             🗑️ Limpar
           </button>
         </div>
-
       </form>
 
       <div class="divider">ou</div>
 
-      <!-- Links extras (requisito: link para cadastro) -->
       <div class="auth-links">
         Não tem conta?
         <a href="cadastro.html">Cadastrar-se agora</a>
         &nbsp;·&nbsp;
         <a href="index.html">← Voltar à Home</a>
       </div>
-
     </section>
   </main>
 
-  <!-- JS de validações compartilhadas -->
   <script src="js/validacoes.js"></script>
-  <!-- JS de controle de estado de login -->
   <script src="js/main.js"></script>
 
   <script>
-    /**
-     * Validações da página de Login (requisito do professor)
-     * - Login deve ser preenchido e ter formato de e-mail válido
-     * - Senha deve ser preenchida
-     * - Botão Realizar Login: valida, mostra mensagem, navega para index.html
-     * - Botão Limpar: limpa campos e foca no login
-     */
-
     function realizarLogin() {
       const inLogin = document.getElementById('input-login');
       const inSenha = document.getElementById('input-senha');
       const alerta  = document.getElementById('alerta-login');
       const form    = document.getElementById('form-login');
 
-      // Limpa erros anteriores
       limparTodosErros(form);
       ocultarAlerta(alerta);
 
       let valido = true;
 
-      // Validação 1: Login (e-mail) — deve ser preenchido e ter formato válido
       const emailVal = inLogin.value.trim();
       if (!emailVal) {
         mostrarErro(inLogin, 'O campo de e-mail (login) deve ser preenchido.');
@@ -179,7 +151,6 @@
         valido = false;
       }
 
-      // Validação 2: Senha — deve ser preenchida
       const senhaVal = inSenha.value;
       if (!senhaVal) {
         mostrarErro(inSenha, 'A senha deve ser preenchida.');
@@ -191,18 +162,12 @@
         return;
       }
 
-      // Todas as validações passaram (requisito: mostrar mensagem + navegar)
-      alert('Validação realizada com sucesso! Bem-vindo(a) à JaLegalizei TI.');
-
-      // Salva estado de login na sessão
-      Auth.login(emailVal, 'Cliente JaLegalizei');
-
-      // Navega para a página de conteúdo (index.html)
+      alert('Validação realizada com sucesso! Bem-vindo(a) à ArtWinners TI.');
+      Auth.login(emailVal, 'Cliente ArtWinners');
       window.location.href = 'index.html';
     }
 
     function limparFormLogin() {
-      // Requisito: limpar campos e setar foco no campo de Login
       const form    = document.getElementById('form-login');
       const inLogin = document.getElementById('input-login');
       const inSenha = document.getElementById('input-senha');
@@ -210,14 +175,14 @@
 
       inLogin.value = '';
       inSenha.value = '';
+
+      resetarBotoesSenha(form);
+
       limparTodosErros(form);
       ocultarAlerta(alerta);
-
-      // Foco no campo de login (requisito)
       inLogin.focus();
     }
 
-    // Permitir acionar o login com Enter nos campos
     document.addEventListener('DOMContentLoaded', function () {
       ['input-login', 'input-senha'].forEach(function(id) {
         const el = document.getElementById(id);
@@ -228,11 +193,12 @@
         }
       });
 
-      // Foco automático no campo de login ao carregar a página
+      const formLogin = document.getElementById('form-login');
+      if (formLogin) resetarBotoesSenha(formLogin);
+
       const inLogin = document.getElementById('input-login');
       if (inLogin) inLogin.focus();
     });
   </script>
-
 </body>
 </html>

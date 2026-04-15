@@ -3,13 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>JaLegalizei TI — Soluções em Tecnologia da Informação</title>
+  <title>ArtWinners TI — Soluções em Tecnologia da Informação</title>
 
   <!-- CSS externo (requisito: estilo em arquivo externo) -->
   <link rel="stylesheet" href="css/style.css" />
 
   <!-- CSS interno da página (requisito: style dentro da tag style) -->
   <style>
+    /* Link da logo */
+    .logo-link {
+      display: inline-block;
+      text-decoration: none;
+    }
+
+    .logo-link:hover {
+      text-decoration: none;
+    }
+
     /* Hero / Banner de topo */
     #hero {
       background: linear-gradient(135deg, var(--ink) 0%, #243347 60%, var(--brand-dark) 100%);
@@ -113,26 +123,33 @@
   <!-- ══════════ HEADER / NAV ══════════ -->
   <header id="main-header">
     <nav>
-      <!-- Logo -->
-      <div class="logo-area">
-        <span class="logo-text">JaLegalizei <strong>TI</strong></span>
-        <span class="logo-slogan">Tecnologia que legaliza o seu futuro</span>
-      </div>
+  <a href="#main-content" class="logo-link">
+    <div class="logo-area">
+      <span class="logo-text">ArtWinners <strong>TI</strong></span>
+      <span class="logo-slogan">A arte que te faz vencer no mercado</span>
+    </div>
+  </a>
 
-      <!-- Links de navegação (requisito: 2 sempre visíveis + 1 condicional) -->
-      <ul class="nav-links" id="nav-links-lista">
-        <li>
-          <a href="login.html" class="nav-link">🔐 Login</a>
-        </li>
-        <li>
-          <a href="cadastro.html" class="nav-link">📝 Cadastrar-se</a>
-        </li>
-        <!-- Terceiro link: aparece SOMENTE após login (controlado por main.js) -->
-        <li id="nav-item-servicos" style="display: none;">
-          <a href="servicos.html" class="nav-link nav-link-destaque">💼 Meus Serviços</a>
-        </li>
-      </ul>
-    </nav>
+  <ul class="nav-links">
+    <li id="nav-item-login">
+      <a href="login.html" class="nav-link">🔐 Login</a>
+    </li>
+
+    <li id="nav-item-cadastro">
+      <a href="cadastro.html" class="nav-link">📝 Cadastrar-se</a>
+    </li>
+
+    <li id="nav-item-servicos" style="display: none;">
+      <a href="servicos.html" class="nav-link nav-link-destaque">💼 Meus Serviços</a>
+    </li>
+
+    <li id="nav-item-logout" style="display: none;">
+      <a href="index.html" class="nav-link" onclick="Auth.logout()">
+        🚪 Encerrar sessão
+      </a>
+    </li>
+  </ul>
+</nav>
   </header>
 
   <!-- Faixa gradiente -->
@@ -168,7 +185,7 @@
         <!-- Uso de <p>, <strong>, <em>, <mark> como requisito -->
         <p class="section-lead">
           Fundada em <strong>2015</strong> na cidade de <mark>Recife–PE</mark>, a
-          <strong>JaLegalizei TI</strong> nasceu da visão de três profissionais apaixonados por
+          <strong>ArtWinners TI</strong> nasceu da visão de três profissionais apaixonados por
           tecnologia que identificaram uma lacuna no mercado: empresas brasileiras precisando de
           soluções de TI robustas, mas sem acesso a equipes especializadas a um custo acessível.
         </p>
@@ -180,7 +197,7 @@
         </p>
 
         <p>
-          Ao longo de quase uma <strong>década de operação</strong>, a JaLegalizei TI cresceu de
+          Ao longo de quase uma <strong>década de operação</strong>, a ArtWinners TI cresceu de
           uma equipe de três pessoas para mais de <strong>60 profissionais certificados</strong>,
           atendendo mais de 300 clientes em todo o Brasil. Nossa trajetória é marcada pelo
           compromisso com a <em>excelência técnica</em> e pela parceria genuína com cada cliente.
@@ -210,7 +227,7 @@
         <div class="video-wrapper">
           <iframe
             src="https://www.youtube.com/embed/dSu5sXmsur4?rel=0&modestbranding=1"
-            title="JaLegalizei TI — Vídeo Institucional"
+            title="ArtWinners TI — Vídeo Institucional"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowfullscreen>
           </iframe>
@@ -236,7 +253,7 @@
           <figure class="gallery-item" role="listitem">
             <img
               src="https://picsum.photos/seed/escritorio1/600/400"
-              alt="Sede da JaLegalizei TI — área de desenvolvimento"
+              alt="Sede da ArtWinners TI — área de desenvolvimento"
               loading="lazy" />
             <figcaption>Área de Desenvolvimento</figcaption>
           </figure>
@@ -365,11 +382,11 @@
     <section id="fundadores" class="section">
       <div class="container">
         <h2>Nossos Fundadores</h2>
-        <p class="section-lead">Conheça as pessoas que tornam a JaLegalizei TI possível.</p>
+        <p class="section-lead">Conheça as pessoas que tornam a ArtWinners TI possível.</p>
 
         <!-- Tabela com cargo, nome e CV dos 3 fundadores (requisito) -->
         <div class="table-scroll">
-          <table class="fundadores-table" aria-label="Fundadores da JaLegalizei TI">
+          <table class="fundadores-table" aria-label="Fundadores da ArtWinners TI">
             <thead>
               <tr>
                 <th scope="col">Cargo</th>
@@ -385,7 +402,7 @@
                   Bacharel em Sistemas de Informação pela UFPE com MBA em Gestão de Tecnologia
                   e Inovação. Possui <strong>15 anos</strong> de experiência em gestão estratégica
                   de TI, tendo atuado em grandes empresas do setor financeiro antes de fundar a
-                  JaLegalizei TI. Palestrante nos eventos <em>TDC</em> e <em>Campus Party NE</em>.
+                  ArtWinners TI. Palestrante nos eventos <em>TDC</em> e <em>Campus Party NE</em>.
                 </td>
               </tr>
               <tr>
@@ -473,7 +490,7 @@
       </table>
 
       <p class="footer-copy">
-        © <span id="ano-atual"></span> JaLegalizei TI — Todos os direitos reservados.
+        © <span id="ano-atual"></span> ArtWinners TI — Todos os direitos reservados.
         CNPJ 00.000.000/0001-00
       </p>
     </div>

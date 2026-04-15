@@ -3,21 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Troca de Senha — JaLegalizei TI</title>
-
-  <!-- CSS externo -->
+  <title>Troca de Senha — ArtWinners TI</title>
   <link rel="stylesheet" href="css/style.css" />
-
-  <!-- CSS interno da página -->
   <style>
-    /* Acumulação: .instrucao-titulo acumula com h4 */
     .instrucao-titulo {
       color: var(--brand-dark);
       margin-bottom: .5rem;
       font-size: .92rem;
     }
 
-    /* Sobrescrita: textarea de instrução nesta página tem borda verde */
     #instrucao-senha-output {
       border: 1px solid rgba(0,187,119,.35);
       background: #f0fff8;
@@ -26,7 +20,6 @@
       font-size: .84rem;
     }
 
-    /* Indicador de força da senha */
     .forca-senha {
       margin-top: .4rem;
       font-size: .82rem;
@@ -36,18 +29,15 @@
     .forca-media   { color: #b7791f; }
     .forca-forte   { color: #276749; }
 
-    /* Acumulação: .form-wrapper.troca-senha tem largura um pouco maior */
     .form-wrapper.troca-senha {
       max-width: 580px;
     }
   </style>
 </head>
 <body class="auth-page">
-
-  <!-- Header com logo (requisito) -->
   <header class="auth-header">
     <div class="logo-area" style="align-items:center;">
-      <span class="logo-text">JaLegalizei <strong>TI</strong></span>
+      <span class="logo-text">ArtWinners <strong>TI</strong></span>
       <span class="logo-slogan">Tecnologia que legaliza o seu futuro</span>
     </div>
   </header>
@@ -55,21 +45,15 @@
 
   <main class="auth-main">
     <section class="form-wrapper troca-senha" aria-label="Formulário de troca de senha">
-
-      <!-- Logo (requisito) -->
       <div class="auth-logo">
-        <span>JaLegalizei</span> <span style="color: var(--brand);">TI</span>
+        <span>ArtWinners</span> <span style="color: var(--brand);">TI</span>
       </div>
 
-      <!-- Identificação da página (requisito) -->
       <h1 class="auth-title">Troca de Senha de Clientes</h1>
 
-      <!-- Alerta -->
       <div id="alerta-troca" class="alerta-box erro" style="display:none;"></div>
 
       <form id="form-troca" novalidate autocomplete="off">
-
-        <!-- Campo Login (e-mail) (requisito) -->
         <div class="form-group">
           <label for="ts-login">E-mail (Login)</label>
           <input
@@ -82,43 +66,52 @@
           <span id="ts-login-erro" class="msg-erro"></span>
         </div>
 
-        <!-- Campo Senha (requisito) -->
         <div class="form-group">
           <label for="ts-senha">Nova Senha</label>
-          <input
-            type="password"
-            id="ts-senha"
-            name="senha"
-            placeholder="Mínimo 6 caracteres"
-            autocomplete="new-password"
-            maxlength="64"
-            oninput="avaliarForcaSenha(this.value)" />
+          <div class="senha-wrapper">
+            <input
+              type="password"
+              id="ts-senha"
+              name="senha"
+              placeholder="Mínimo 6 caracteres"
+              autocomplete="new-password"
+              maxlength="64"
+              oninput="avaliarForcaSenha(this.value)" />
+            <button
+              type="button"
+              class="btn-toggle-senha"
+              onclick="toggleSenha('ts-senha', this)"
+              aria-label="Mostrar ou ocultar senha">
+              👁️
+            </button>
+          </div>
           <span id="ts-senha-erro" class="msg-erro"></span>
-          <!-- Indicador de força -->
           <span id="forca-senha" class="forca-senha"></span>
         </div>
 
-        <!-- Campo Confirmação de Senha (requisito) -->
         <div class="form-group">
           <label for="ts-confirma">Confirmar Nova Senha</label>
-          <input
-            type="password"
-            id="ts-confirma"
-            name="confirma"
-            placeholder="Repita a senha"
-            autocomplete="new-password"
-            maxlength="64" />
+          <div class="senha-wrapper">
+            <input
+              type="password"
+              id="ts-confirma"
+              name="confirma"
+              placeholder="Repita a senha"
+              autocomplete="new-password"
+              maxlength="64" />
+            <button
+              type="button"
+              class="btn-toggle-senha"
+              onclick="toggleSenha('ts-confirma', this)"
+              aria-label="Mostrar ou ocultar senha">
+              👁️
+            </button>
+          </div>
           <span id="ts-confirma-erro" class="msg-erro"></span>
         </div>
 
-        <!--
-          Campo de saída com instruções sobre regras de senha (requisito).
-          Deve mostrar caracteres especiais permitidos e NÃO permitidos.
-          Conteúdo preenchido por JS.
-        -->
         <div class="form-group">
           <h4 class="instrucao-titulo">📋 Regras de composição da senha</h4>
-          <!-- Campo de saída (output/textarea readonly) -->
           <textarea
             id="instrucao-senha-output"
             class="instrucao-senha"
@@ -127,9 +120,7 @@
           </textarea>
         </div>
 
-        <!-- Ações -->
         <div class="form-actions">
-          <!-- Botão Trocar Senha (requisito) -->
           <button
             type="button"
             id="btn-trocar"
@@ -138,7 +129,6 @@
             🔒 Trocar Senha
           </button>
 
-          <!-- Botão Limpar (requisito) -->
           <button
             type="button"
             id="btn-limpar-ts"
@@ -147,7 +137,6 @@
             🗑️ Limpar
           </button>
         </div>
-
       </form>
 
       <div class="auth-links" style="margin-top:1.25rem;">
@@ -155,41 +144,23 @@
         &nbsp;·&nbsp;
         <a href="index.html">Página Inicial</a>
       </div>
-
     </section>
   </main>
 
-  <!-- JS compartilhado -->
   <script src="js/validacoes.js"></script>
   <script src="js/main.js"></script>
 
   <script>
-    /**
-     * Lógica da página de Troca de Senha
-     * Validações exigidas pelo professor:
-     *  - Login deve ser preenchido e ter formato de e-mail válido
-     *  - Senha deve ser preenchida
-     *  - Confirmação deve ser preenchida
-     *  - Senha: min 6 chars, 1 numérico, 1 maiúscula, 1 especial permitido
-     *  - Proibidos: ¨ { } [ ] ´ ` ~ ^ : ; < > , " '
-     *  - Confirmação deve ser igual à senha
-     *  - Botão Trocar Senha: valida → mensagem → navega para página anterior
-     *  - Botão Limpar: limpa campos e foca em login
-     */
-
-    // Preenche o textarea de instruções ao carregar a página
     document.addEventListener('DOMContentLoaded', function () {
       const output = document.getElementById('instrucao-senha-output');
       if (output) {
-        output.value = INSTRUCAO_SENHA; // constante definida em validacoes.js
+        output.value = INSTRUCAO_SENHA;
       }
 
-      // Foco no campo de login
       const tsLogin = document.getElementById('ts-login');
       if (tsLogin) tsLogin.focus();
     });
 
-    /* Avalia e exibe a "força" da senha em tempo real */
     function avaliarForcaSenha(senha) {
       const el = document.getElementById('forca-senha');
       if (!el) return;
@@ -227,7 +198,6 @@
 
       let valido = true;
 
-      // ── Validação 1: Login (e-mail)
       const emailVal = inLogin.value.trim();
       if (!emailVal) {
         mostrarErro(inLogin, 'O campo de e-mail (login) deve ser preenchido.');
@@ -237,13 +207,11 @@
         valido = false;
       }
 
-      // ── Validação 2: Senha deve ser preenchida
       const senhaVal = inSenha.value;
       if (!senhaVal) {
         mostrarErro(inSenha, 'A senha deve ser preenchida.');
         valido = false;
       } else {
-        // ── Validação 3: Regras da senha
         const resultSenha = validarSenha(senhaVal);
         if (!resultSenha.valido) {
           mostrarErro(inSenha, resultSenha.mensagem);
@@ -251,13 +219,11 @@
         }
       }
 
-      // ── Validação 4: Confirmação deve ser preenchida
       const confirmaVal = inConfirma.value;
       if (!confirmaVal) {
         mostrarErro(inConfirma, 'A confirmação de senha deve ser preenchida.');
         valido = false;
       } else if (valido && confirmaVal !== senhaVal) {
-        // Só verifica igualdade se a senha em si for válida
         mostrarErro(inConfirma, 'A confirmação de senha não coincide com a senha digitada.');
         valido = false;
       }
@@ -267,15 +233,11 @@
         return;
       }
 
-      // Sucesso (requisito: mostrar mensagem e navegar para página anterior)
       alert('Validação realizada com sucesso! Sua senha foi alterada.');
-
-      // Navega para a página anterior (login)
-      window.location.href = 'login.html';
+      window.history.back();
     }
 
     function limparFormTroca() {
-      // Requisito: limpar campos e focar em login
       const inLogin    = document.getElementById('ts-login');
       const inSenha    = document.getElementById('ts-senha');
       const inConfirma = document.getElementById('ts-confirma');
@@ -286,16 +248,20 @@
       inLogin.value    = '';
       inSenha.value    = '';
       inConfirma.value = '';
+      inSenha.type = 'password';
+      inConfirma.type = 'password';
+
+      form.querySelectorAll('.btn-toggle-senha').forEach(function (btn) {
+        btn.textContent = '👁️';
+      });
+
       if (forca) forca.textContent = '';
 
       limparTodosErros(form);
       ocultarAlerta(alerta);
-
-      // Foco no campo login (requisito)
       inLogin.focus();
     }
 
-    // Enter nos campos aciona a troca
     document.addEventListener('DOMContentLoaded', function () {
       ['ts-login', 'ts-senha', 'ts-confirma'].forEach(function (id) {
         const el = document.getElementById(id);
@@ -305,6 +271,5 @@
       });
     });
   </script>
-
 </body>
 </html>
