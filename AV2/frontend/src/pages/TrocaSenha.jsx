@@ -4,52 +4,50 @@ import AuthHeader from '../components/AuthHeader';
 import SenhaInput from '../components/SenhaInput';
 import AlertaBox  from '../components/AlertaBox';
 import { apiTrocarSenha } from '../services/api';
-import {
-  validarEmail,
-  validarSenha,
-  avaliarForcaSenha,
-  INSTRUCAO_SENHA,
-} from '../services/validacoes';
+import { validarEmail } from '../services/validacoes'; // Ajuste para '../services/validacoes' se necessário
 
 export default function TrocaSenha() {
   const navigate = useNavigate();
 
   // ── Estado ──────────────────────────────────────────────────
-  const [loginVal,    setLoginVal]    = useState('');
-  const [senhaAtual,  setSenhaAtual]  = useState('');
-  const [novaSenha,   setNovaSenha]   = useState('');
-  const [confirmaSenha, setConfirmaSenha] = useState('');
-  const [erros,       setErros]       = useState({});
-  const [alerta,      setAlerta]      = useState({ msg: '', tipo: 'erro' });
-  const [loading,     setLoading]     = useState(false);
+  const [form, setForm] = useState({
+    login: '',
+    senhaAtual: '',
+    novaSenha: '',
+    confirmaSenha: ''
+  });
 
-  const forca = avaliarForcaSenha(novaSenha);
+  const [erros, setErros] = useState({});
+  const [alerta, setAlerta] = useState({ msg: '', tipo: 'erro' });
+  const [loading, setLoading] = useState(false);
+
+  // ── Helpers ─────────────────────────────────────────────────
+  function handleChange(campo, valor) {
+    setForm(f => ({ ...f, [campo]: valor }));
+  }
 
   // ── Validação local ─────────────────────────────────────────
   function validar() {
     const novosErros = {};
 
-    if (!loginVal.trim()) {
-      novosErros.login = 'O campo de e-mail (login) deve ser preenchido.';
-    } else if (!validarEmail(loginVal)) {
-      novosErros.login = 'Informe um e-mail válido. Ex: usuario@dominio.com';
+    if (!form.login.trim()) {
+      novosErros.login = 'O e-mail é obrigatório.';
+    } else if (!validarEmail(form.login)) {
+      novosErros.login = 'O e-mail informado não é válido.';
     }
 
-    if (!senhaAtual) {
-      novosErros.senhaAtual = 'A senha atual deve ser preenchida.';
+    if (!form.senhaAtual) {
+      novosErros.senhaAtual = 'A senha atual é obrigatória.';
     }
 
-    if (!novaSenha) {
-      novosErros.novaSenha = 'A nova senha deve ser preenchida.';
-    } else {
-      const res = validarSenha(novaSenha);
-      if (!res.valido) novosErros.novaSenha = res.mensagem;
+    if (!form.novaSenha) {
+      novosErros.novaSenha = 'A nova senha é obrigatória.';
+    } else if (form.novaSenha.length < 6) {
+      novosErros.novaSenha = 'A nova senha deve ter pelo menos 6 caracteres.';
     }
 
-    if (!confirmaSenha) {
-      novosErros.confirmaSenha = 'A confirmação de senha deve ser preenchida.';
-    } else if (novaSenha && confirmaSenha !== novaSenha) {
-      novosErros.confirmaSenha = 'A confirmação de senha não coincide com a nova senha.';
+    if (form.novaSenha !== form.confirmaSenha) {
+      novosErros.confirmaSenha = 'As senhas não coincidem.';
     }
 
     setErros(novosErros);
@@ -57,34 +55,32 @@ export default function TrocaSenha() {
   }
 
   // ── Submit ──────────────────────────────────────────────────
-  async function handleTrocar() {
+  async function handleTroca() {
     setAlerta({ msg: '', tipo: 'erro' });
     if (!validar()) {
-      setAlerta({ msg: 'Por favor, corrija os erros indicados.', tipo: 'erro' });
+      setAlerta({ msg: 'Por favor, corrija os erros indicados abaixo.', tipo: 'erro' });
       return;
     }
 
     setLoading(true);
     try {
-      const resultado = await apiTrocarSenha(loginVal.trim(), senhaAtual, novaSenha);
+      const resultado = await apiTrocarSenha(form.login.trim(), form.senhaAtual, form.novaSenha);
+      
       if (resultado.ok) {
-        setAlerta({ msg: '✅ Validação realizada com sucesso! Senha alterada com sucesso.', tipo: 'sucesso' });
-        setTimeout(() => navigate('/login'), 2500);
+        alert('Senha alterada com sucesso! Faça login com a sua nova senha.');
+        navigate('/login');
       } else {
-        setAlerta({ msg: resultado.erro || 'Erro ao trocar senha. Verifique seus dados.', tipo: 'erro' });
+        setAlerta({ msg: resultado.erro || 'Erro ao tentar trocar a senha. Verifique os seus dados.', tipo: 'erro' });
       }
     } catch {
-      setAlerta({ msg: 'Erro de conexão. Verifique se o servidor está rodando.', tipo: 'erro' });
+      setAlerta({ msg: 'Erro de conexão. Verifique se o servidor backend está a correr.', tipo: 'erro' });
     } finally {
       setLoading(false);
     }
   }
 
   function handleLimpar() {
-    setLoginVal('');
-    setSenhaAtual('');
-    setNovaSenha('');
-    setConfirmaSenha('');
+    setForm({ login: '', senhaAtual: '', novaSenha: '', confirmaSenha: '' });
     setErros({});
     setAlerta({ msg: '', tipo: 'erro' });
   }
@@ -95,92 +91,75 @@ export default function TrocaSenha() {
       <AuthHeader />
 
       <main className="auth-main">
-        <section className="form-wrapper troca-senha" aria-label="Formulário de troca de senha">
+        <section className="form-wrapper" aria-label="Formulário de Troca de Senha" style={{ maxWidth: '450px' }}>
           <div className="auth-logo">
             <span>ArtWinners</span> <span style={{ color: 'var(--brand)' }}>TI</span>
           </div>
 
-          <h1 className="auth-title">Troca de Senha de Clientes</h1>
-
-          <div className="info-banner">
-            ℹ️ Preencha seu e-mail, a senha atual e a nova senha abaixo para realizar a troca.
-          </div>
+          <h1 className="auth-title">Alterar Senha</h1>
+          <p style={{ textAlign: 'center', color: 'var(--ink-light)', marginBottom: '1.5rem', fontSize: '0.9rem' }}>
+            Informe a sua senha atual e a nova senha desejada.
+          </p>
 
           <AlertaBox mensagem={alerta.msg} tipo={alerta.tipo} />
 
           <div className="form-group">
-            <label htmlFor="ts-login">E-mail (Login)</label>
+            <label htmlFor="ts-login">E-mail (Login) *</label>
             <input
               type="email"
               id="ts-login"
-              value={loginVal}
-              onChange={e => setLoginVal(e.target.value)}
+              value={form.login}
+              onChange={e => handleChange('login', e.target.value)}
               placeholder="seu@email.com"
               autoComplete="username"
-              maxLength={120}
               className={erros.login ? 'campo-erro' : ''}
             />
             {erros.login && <span className="msg-erro">{erros.login}</span>}
           </div>
 
           <div className="form-group">
-            <label htmlFor="ts-senha-atual">Senha Atual</label>
+            <label htmlFor="ts-senha-atual">Senha Atual *</label>
             <SenhaInput
               id="ts-senha-atual"
-              value={senhaAtual}
-              onChange={e => setSenhaAtual(e.target.value)}
-              placeholder="Sua senha atual"
+              value={form.senhaAtual}
+              onChange={e => handleChange('senhaAtual', e.target.value)}
+              placeholder="Digite a senha atual"
               autoComplete="current-password"
               erro={erros.senhaAtual}
             />
           </div>
 
           <div className="form-group">
-            <label htmlFor="ts-nova-senha">Nova Senha</label>
+            <label htmlFor="ts-nova-senha">Nova Senha *</label>
             <SenhaInput
               id="ts-nova-senha"
-              value={novaSenha}
-              onChange={e => setNovaSenha(e.target.value)}
-              placeholder="Mínimo 6 caracteres"
+              value={form.novaSenha}
+              onChange={e => handleChange('novaSenha', e.target.value)}
+              placeholder="Crie uma nova senha"
               autoComplete="new-password"
               erro={erros.novaSenha}
             />
-            {forca && (
-              <span className={`forca-senha ${forca.classe}`}>{forca.texto}</span>
-            )}
           </div>
 
           <div className="form-group">
-            <label htmlFor="ts-confirma">Confirmar Nova Senha</label>
+            <label htmlFor="ts-confirma-senha">Confirmar Nova Senha *</label>
             <SenhaInput
-              id="ts-confirma"
-              value={confirmaSenha}
-              onChange={e => setConfirmaSenha(e.target.value)}
+              id="ts-confirma-senha"
+              value={form.confirmaSenha}
+              onChange={e => handleChange('confirmaSenha', e.target.value)}
               placeholder="Repita a nova senha"
               autoComplete="new-password"
               erro={erros.confirmaSenha}
             />
           </div>
 
-          <div className="form-group">
-            <h4 style={{ color: 'var(--brand-dark)', marginBottom: '.5rem', fontSize: '.92rem' }}>
-              📋 Regras de composição da senha
-            </h4>
-            <textarea
-              className="instrucao-senha"
-              readOnly
-              value={INSTRUCAO_SENHA}
-              aria-label="Instruções sobre regras da senha"
-            />
-          </div>
-
-          <div className="form-actions">
+          <div className="form-actions" style={{ marginTop: '1.5rem' }}>
             <button
               type="button"
               className="btn btn-primary"
-              onClick={handleTrocar}
+              onClick={handleTroca}
               disabled={loading}>
-              {loading ? '⏳ Salvando...' : '🔒 Trocar Senha'}
+              {loading ? '⏳ A processar...' : '🔄 Alterar Senha'}
             </button>
             <button
               type="button"
@@ -190,10 +169,12 @@ export default function TrocaSenha() {
             </button>
           </div>
 
-          <div className="auth-links" style={{ marginTop: '1.25rem' }}>
-            <Link to="/login">← Voltar ao Login</Link>
-            &nbsp;·&nbsp;
-            <Link to="/">Página Inicial</Link>
+          <div className="divider">ou</div>
+
+          <div className="auth-links" style={{ textAlign: 'center' }}>
+            Lembrou da senha? <Link to="/login">Faça Login</Link>
+            <br /><br />
+            <Link to="/">← Voltar à Home</Link>
           </div>
         </section>
       </main>

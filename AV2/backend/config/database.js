@@ -1,7 +1,7 @@
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 
-const DB_PATH = path.join(__dirname, '../artwinners.db');
+const DB_PATH = path.join(__dirname, '../../artwinners.db');
 
 let db;
 
@@ -60,28 +60,13 @@ function initSchema() {
       )
     `);
 
-    // Seed simples (sem prepare/transaction)
     db.get(`SELECT COUNT(*) as n FROM servico_ti`, [], (err, row) => {
-      if (err) {
-        console.error(err.message);
-        return;
-      }
-
-      if (row.n === 0) {
-        const services = [
-          ['Desenvolvimento de Software Sob Medida', 'Sistemas web, mobile e desktop.', 8000, 30, '💻'],
-          ['Suporte Técnico Especializado', 'Atendimento remoto.', 600, 3, '🛠️'],
-          ['Segurança da Informação', 'Auditoria e LGPD.', 4500, 20, '🛡️']
-        ];
-
-        services.forEach(s => {
-          db.run(
-            `INSERT INTO servico_ti (nome, descricao, preco, prazo_dias, icone)
-             VALUES (?, ?, ?, ?, ?)`,
-            s
-          );
-        });
-
+      if (!err && row && row.n === 0) {
+        const stmt = db.prepare(`INSERT INTO servico_ti (nome, descricao, preco, prazo_dias, icone) VALUES (?, ?, ?, ?, ?)`);
+        stmt.run('Desenvolvimento de Software Sob Medida', 'Sistemas web, mobile e desktop.', 8000, 30, '💻');
+        stmt.run('Suporte Técnico Especializado', 'Atendimento remoto.', 600, 3, '🛠️');
+        stmt.run('Segurança da Informação', 'Auditoria e LGPD.', 4500, 20, '🛡️');
+        stmt.finalize();
         console.log('Seed de serviços inserido!');
       }
     });

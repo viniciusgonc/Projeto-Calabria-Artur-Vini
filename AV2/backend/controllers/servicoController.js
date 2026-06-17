@@ -1,25 +1,21 @@
 const { getDb } = require('../config/database');
 
-/**
- * GET /api/servicos
- * Return: { ok: true, dados: [...] } | { ok: false, erro: "..." }
- */
 function listarServicos(req, res) {
   try {
     const db = getDb();
-    const servicos = db.prepare('SELECT * FROM servico_ti ORDER BY id').all();
-    return res.json({ ok: true, dados: servicos });
+    db.all('SELECT * FROM servico_ti ORDER BY id', [], (err, servicos) => {
+      if (err) {
+        console.error('listarServicos:', err);
+        return res.status(500).json({ ok: false, erro: 'Erro interno ao consultar serviços.', dados: [] });
+      }
+      return res.json({ ok: true, dados: servicos });
+    });
   } catch (err) {
     console.error('listarServicos:', err);
-    return res.status(500).json({ ok: false, erro: 'Erro interno ao consultar serviços.', dados: [] });
+    return res.status(500).json({ ok: false, erro: 'Erro interno.', dados: [] });
   }
 }
 
-/**
- * POST /api/servicos
- * Body: { nome, descricao, preco, prazo_dias, icone }
- * Return: { ok: true } | { ok: false, erro: "..." }
- */
 function cadastrarServico(req, res) {
   const { nome, descricao, preco, prazo_dias, icone } = req.body;
 
@@ -30,29 +26,22 @@ function cadastrarServico(req, res) {
   const precoNum = parseFloat(preco);
   const prazoNum = parseInt(prazo_dias, 10);
 
-  if (isNaN(precoNum) || precoNum <= 0) {
-    return res.status(400).json({ ok: false, erro: 'Preço deve ser um número positivo.' });
-  }
-  if (isNaN(prazoNum) || prazoNum <= 0) {
-    return res.status(400).json({ ok: false, erro: 'Prazo deve ser um número inteiro positivo.' });
-  }
+  if (isNaN(precoNum) || precoNum <= 0) return res.status(400).json({ ok: false, erro: 'Preço inválido.' });
+  if (isNaN(prazoNum) || prazoNum <= 0) return res.status(400).json({ ok: false, erro: 'Prazo inválido.' });
 
   try {
     const db = getDb();
-    const result = db.prepare(`
-      INSERT INTO servico_ti (nome, descricao, preco, prazo_dias, icone)
-      VALUES (?, ?, ?, ?, ?)
-    `).run(
-      nome.trim(),
-      (descricao || '').trim(),
-      precoNum,
-      prazoNum,
-      (icone || '💻').trim()
-    );
-    return res.status(201).json({ ok: true, id: result.lastInsertRowid });
+    const query = `INSERT INTO servico_ti (nome, descricao, preco, prazo_dias, icone) VALUES (?, ?, ?, ?, ?)`;
+    db.run(query, [nome.trim(), (descricao || '').trim(), precoNum, prazoNum, (icone || '💻').trim()], function(err) {
+      if (err) {
+        console.error('cadastrarServico:', err);
+        return res.status(500).json({ ok: false, erro: 'Erro ao cadastrar serviço.' });
+      }
+      return res.status(201).json({ ok: true, id: this.lastID });
+    });
   } catch (err) {
     console.error('cadastrarServico:', err);
-    return res.status(500).json({ ok: false, erro: 'Erro interno ao cadastrar serviço.' });
+    return res.status(500).json({ ok: false, erro: 'Erro interno.' });
   }
 }
 
